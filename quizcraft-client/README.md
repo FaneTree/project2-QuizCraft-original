@@ -6,4 +6,6 @@
 3. `Users.jsx` component created for authentication
 4. `Routes` added 
    1. 'App.js' ; 'index.js' 
-   
+5. Firebase set up
+   6. `Login` connected successfully
+   7. `Sign Up` connected successfully
