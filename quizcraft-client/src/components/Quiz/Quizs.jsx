@@ -20,6 +20,7 @@ export default function Quizs() {
         {id:2, name:"Medium"},
         {id:3, name:"Hard"}];
 
+
     const generateURL = ({ questionCount, category, difficulty }) => {
         const selectedDifficulty = difficulties.find(d => d.id === difficulty);
         const difficultyName = selectedDifficulty ? selectedDifficulty.name.toLowerCase() : '';
