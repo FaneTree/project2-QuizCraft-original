@@ -1,36 +1,32 @@
-import React, {Component, useState} from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState} from 'react';
+import {  useNavigate } from 'react-router-dom';
 import {  signInWithEmailAndPassword  } from 'firebase/auth';
 import { auth } from './firebase.js';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessages, setErrorMessages] = useState(null);
 
-
-    // const logInWithEmailAndPassword = async (email, password) => {
-    //     try {
-    //       await signInWithEmailAndPassword(auth, email, password);
-    //     } catch (err) {
-    //       console.error(err);
-    //       alert(err.message);
-    //     }
-    //   };
-
+    const _handleErrors = (error) => {
+        alert(error.code)
+        setErrorMessages(error.message);
+    }
     const _handleSubmit = (e) => {
         e.preventDefault();
-        // setEmail('');
-        // setPassword('');
 
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed in
                 const user = userCredential.user;
+                // TODO: redirect the user to another page after sign-in
+                navigate("/")
                 // ...
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
+                _handleErrors(error)
+                navigate("/login")
             });
     }
 
@@ -41,6 +37,7 @@ const Login = () => {
                 <input type="password" placeholder='Enter your password' value={ password } onInput={ (e) =>  setPassword( e.target.value ) }/>
                 <input type="submit" value="Log In" />
             </form>
+            { errorMessages && <div>{errorMessages.message}</div>}
         </div>
     )
 }

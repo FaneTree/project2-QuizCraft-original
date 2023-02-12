@@ -5,10 +5,13 @@ import { auth } from './firebase.js';
  
 const Signup = () => {
     const navigate = useNavigate();
- 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('');
- 
+    const [error, setError] = useState(null);
+
+    const _handleError = (error)=>{
+        setError(error.message);
+    }
     const onSubmit = async (e) => {
       e.preventDefault()
      
@@ -21,10 +24,7 @@ const Signup = () => {
             // ...
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage);
-            // ..
+            _handleError(error)
         });
  
    
@@ -36,7 +36,8 @@ const Signup = () => {
             <div>
                 <div>                  
                     <h1> FocusApp </h1>                                                                            
-                    <form>                                                                                            
+                    <form>
+                        { error && <div>{error.message}</div>}
                         <div>
                             <label htmlFor="email-address">
                                 Email address
