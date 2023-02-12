@@ -32,7 +32,7 @@ export default function Games(){
         setLoading(true);
 
         // make trivia api call using axios 
-        const resp = await axios.get("https://opentdb.com/api.php?amount=10");
+        const resp = await axios.get("https://opentdb.com/api.php?amount=1");
 
         setTriviaQuestion(resp.data.results);
         setCorrectAnswer(resp.data.results[0].correct_answer);
