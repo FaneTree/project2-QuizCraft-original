@@ -59,6 +59,7 @@ export default function Games(){
 
     // converts html code to regular characters
     function removeCharacters(question) {
+        // regex aye
         return question.replace(/(&quot\;)/g, "\"").replace(/(&rsquo\;)/g, "\"").replace(/(&#039\;)/g, "\'").replace(/(&amp\;)/g, "\"");
     }
     
