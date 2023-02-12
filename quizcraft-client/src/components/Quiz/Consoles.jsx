@@ -12,7 +12,7 @@ export default function Consoles(props){
     }
 
     const handleDifficultyChange = (selectedItems) => {
-        const difficultyId = selectedItems[0].id;
+        const difficultyId = selectedItems[0].name;
         setDifficulty(difficultyId);
     }
 

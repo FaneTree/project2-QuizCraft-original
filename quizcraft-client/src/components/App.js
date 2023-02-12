@@ -7,7 +7,7 @@ import NavBar from "./NavBar"
 import Signup from './User/Signup';
 import Login from './User/Login';
 import Home from './Home';
-import Quizs from "./Quiz/Quizs";
+import Quizmaster from './Quiz/Quizmaster';
 
 function App() {
     return (
@@ -24,8 +24,8 @@ function App() {
                     <Route exact path="/login" element={
                             <Login />
                     } />
-                    <Route exact path="/quizs" element={
-                            <Quizs />
+                    <Route exact path="/quizmaster" element={
+                            <Quizmaster />
                     } />
                 </Routes>
             </div>
