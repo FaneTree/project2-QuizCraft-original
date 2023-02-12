@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import {  useNavigate } from 'react-router-dom';
-import {  signInWithEmailAndPassword  } from 'firebase/auth';
+import {  signInWithEmailAndPassword, signInAnonymously  } from 'firebase/auth';
 import { auth } from './firebase.js';
 
 const Login = () => {
@@ -38,8 +38,35 @@ const Login = () => {
                 <input type="submit" value="Log In" />
             </form>
             { errorMessages && <div>{errorMessages.message}</div>}
+            <AnonLogin />
         </div>
     )
 }
 
+// anonymous login function; it's called as Function Component in the Login Component
+const AnonLogin = () => {
+    const navigate = useNavigate();
+    const _signin = ()=>{
+
+        signInAnonymously(auth)
+            .then((UserCredential) => {
+                // Signed in..
+                const user = UserCredential.user;
+                // TODO: redirect the user to another page after sign-in
+                navigate("/")
+                //...
+
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // ...
+            });
+    }
+    return (
+        <div>Anonymous login
+            <button onClick={ _signin }>Log In Anonymously</button>
+        </div>
+    )
+}
 export default Login;
