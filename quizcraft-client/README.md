@@ -9,3 +9,19 @@
 5. Firebase set up
    - `Login` connected successfully
    - `Sign Up` connected successfully
+
+# 12-02-2023
+1. routes cleaned up 
+   - Home added to routes
+   - Contents only displayed after the click of a button 
+2. Game component created
+```mermaid
+flowchart TD
+   Games --> Scores 
+   Games --> Consoles 
+```
+   - Parent component: Games 
+     - callback function: api; clicked answers; score calculation 
+   - Child components:
+     - Console: display each question 
+     - Result: display the score of the game
