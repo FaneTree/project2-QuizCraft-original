@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Consoles from './Consoles';
 import axios from 'axios';
+import Quiz from "./Quiz";
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
@@ -39,6 +40,8 @@ export default function Quizmaster() {
                 categories={categories} difficulties={difficulties}
                 onSubmit={generateURL}
             />
+
+            <Quiz  />
         </div>
     );
 }

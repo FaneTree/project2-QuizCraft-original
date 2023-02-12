@@ -24,7 +24,7 @@ function App() {
                     <Route exact path="/login" element={
                             <Login />
                     } />
-                    <Route exact path="/quizmaster" element={
+                    <Route exact path="/quizs" element={
                             <Quizmaster />
                     } />
                 </Routes>
