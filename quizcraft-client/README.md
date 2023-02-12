@@ -25,3 +25,6 @@ flowchart TD
    - Child components:
      - Console: display each question 
      - Result: display the score of the game
+3. Anonymous login added 
+4. Log out added to the Home 
+5. `npm i react-firebase-hooks` for the manipulation of Firebase usercredentials 
