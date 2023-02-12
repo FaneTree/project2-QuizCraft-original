@@ -28,8 +28,8 @@ export default function Quizs() {
     // state to store the selected difficulty
     const difficulties = [
         {
-         id:1,
-         name:"Easy"
+            id:1,
+            name:"Easy"
         },
         {
             id:2,
