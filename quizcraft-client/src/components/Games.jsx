@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 // need to use session tokens so users don't see the same question twice (yet to be included)
 
 export default function Games(){
+    
     // most of lines 9 - 98 copied from https://github.com/AndyUGA/trivia-api-tutorial-project/blob/main/src/App.js
     const [triviaQuestion, setTriviaQuestion] = useState([]);
     const [correctAnswer, setCorrectAnswer] = useState("");
