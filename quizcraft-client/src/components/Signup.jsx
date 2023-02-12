@@ -35,7 +35,7 @@ const Signup = () => {
         <section>
             <div>
                 <div>                  
-                    <h1> FocusApp </h1>                                                                            
+                    <h1> Sign Up </h1>                                                                            
                     <form>
                         { error && <div>{error.message}</div>}
                         <div>
