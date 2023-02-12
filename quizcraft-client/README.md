@@ -28,3 +28,4 @@ flowchart TD
 3. Anonymous login added 
 4. Log out added to the Home 
 5. `npm i react-firebase-hooks` for the manipulation of Firebase usercredentials 
+6. `npm install --save react-dropdown-select` for dropdown selection

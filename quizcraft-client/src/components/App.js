@@ -3,6 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import Signup from './Signup';
 import Login from './Login';
 import Home from './Home';
+import Quizs from "./Quiz/Quizs";
 
 function App() {
     return (
@@ -25,6 +26,9 @@ function App() {
                 } />
                 <Route exact path="/login" element={
                         <Login />
+                } />
+                <Route exact path="/quizs" element={
+                        <Quizs />
                 } />
             </Routes>
         </div>
