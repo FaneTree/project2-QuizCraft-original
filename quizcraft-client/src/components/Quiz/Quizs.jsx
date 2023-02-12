@@ -16,13 +16,12 @@ export default function Quizs() {
     }, []);
 
     // state to store the selected category
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState(null);
 
     // callback function to receive selected category
     const handleSelectCategory = (category) => {
         console.log(category) //TODO: save it for URL generation
-        setSelectedCategories(category); //TODO: this is NOT working
-        console.log(selectedCategories)
+        setSelectedCategories(category[0]); //TODO: this is NOT working
     };
 
     // state to store the selected difficulty
@@ -45,10 +44,17 @@ export default function Quizs() {
     // callback function to receive selected difficulty
     const handleSelectDifficulty = (difficulty) => {
         console.log("diff",difficulty) //TODO: save it for URL generation
-        setSelectedDifficulties([...selectedDifficulties, difficulty]);
-        console.log("selected diff", selectedDifficulties)
+        setSelectedDifficulties(difficulty[0]);
     }
 
+    // check if the data being properly stored
+    // TODO: remove the lines later
+    useEffect(()=>{
+        console.log("selected Categories",selectedCategories);
+        console.log("selected Difficulties",selectedDifficulties);
+        },[selectedCategories, selectedDifficulties]
+
+    )
     return (
         <div>
             <h1>Quizs</h1>
