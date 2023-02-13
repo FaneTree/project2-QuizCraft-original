@@ -2,16 +2,17 @@ import React from "react";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-// need to use session tokens so users don't see the same question twice (yet to be included)
-
 export default function Games(){
     
-    // most of lines 9 - 98 copied from https://github.com/AndyUGA/trivia-api-tutorial-project/blob/main/src/App.js
+    // most of lines 9 - 102 copied from https://github.com/AndyUGA/trivia-api-tutorial-project/blob/main/src/App.js
     const [triviaQuestion, setTriviaQuestion] = useState([]);
     const [correctAnswer, setCorrectAnswer] = useState("");
     const [currentPoints, setCurrentPoints] = useState(0);
     const [allPossibleAnswers, setAllPossibleAnswers] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [incorrectAnswer, setIncorrectAnswer] = useState("");
+    const [attempted, setAttempted] = useState(false);
+
 
     // combines correct & incorrect answers into a single array
     async function combineAllAnswers(incorrectAnswers, correctAnswer) {
@@ -43,21 +44,33 @@ export default function Games(){
 
         // set loading boolean to false so that we know to show trivia question 
         setLoading(false);
+        setAttempted(false);
     }
 
     useEffect(() => {
         getTriviaData();
     }, []);
 
+    // function answerStatus() {
+    //     const [right, setRight] = useState(false);
+    //     const [wrong, setWrong] = useState(false);
+    // }
+
     function verifyAnswer(selectedAnswer) {
+        setAttempted(true);
         if (selectedAnswer === correctAnswer) {
-            getTriviaData();
+            
             setCurrentPoints(currentPoints + 1);
+            // show selectedAnswer is correct; selectedAnswer = green
         } else {
+            setIncorrectAnswer(selectedAnswer)
             setCurrentPoints(currentPoints - 1);
             // show selected answer is incorrect & show correct answer
-            // getTriviaData();
+            // selectedAnswer => red, correctAnswer => green
+            // next line won't happen until host clicks for next question
+            // or wait 5 seconds
         }
+        setTimeout(getTriviaData, 5000);
     }
 
     // converts html code to regular characters
@@ -83,12 +96,20 @@ export default function Games(){
                         <br />
                         <div className="allAnswers">
                             {
-                                allPossibleAnswers.map((answer, index) => 
-                                <div key ={index}>
-                                    <button className="answerBtns" key={index} onClick={() => verifyAnswer(answer)} >
+                                allPossibleAnswers.map((answer, index) => {
+                                    let style;
+                                    if (attempted && answer === correctAnswer) {
+                                        style = {backgroundColor: "green"}
+                                    } else if (attempted && answer === incorrectAnswer) {
+                                        style = {backgroundColor: "red"}
+                                    }
+                                    return (<div key ={index}>
+                                    <button className="answerBtns" style={style} key={index} onClick={() => verifyAnswer(answer)} >
                                         {removeCharacters(answer)}
                                     </button>
-                                </div> 
+                                    </div> )
+                                }
+                                
                                 )
                             }
                         </div>
