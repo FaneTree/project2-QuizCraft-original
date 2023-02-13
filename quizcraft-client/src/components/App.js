@@ -8,6 +8,7 @@ import Signup from './User/Signup';
 import Signin from './User/Signin';
 import Home from './Home';
 import Quizmaster from './Quiz/Quizmaster';
+import Quiz from './Quiz/Quiz';
 
 function App() {
 
@@ -25,8 +26,11 @@ function App() {
                     <Route exact path="/signin" element={
                             <Signin />
                     } />
-                    <Route exact path="/quizs" element={
+                    <Route exact path="/create" element={
                             <Quizmaster />
+                    } />
+                    < Route exact path="/quiz" element={
+                        <Quiz />
                     } />
                 </Routes>
             </div>

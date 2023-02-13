@@ -2,10 +2,18 @@ import React, { useState, useEffect } from 'react';
 import Consoles from './Consoles';
 import axios from 'axios';
 import Quiz from "./Quiz";
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
 export default function Quizmaster() {
+
+    const [consoleVisble,setConsoleVisble] = useState(true);
+    const quizComplete = ()=>{
+        setConsoleVisble(true);
+        console.log("quiz complete !!!!!")
+    }
+
     // state to receive category info from the API
     const [categories, setCategories] = useState([]);
     // call the category API and store the info to the state
@@ -38,6 +46,9 @@ export default function Quizmaster() {
                 };
             });
             setFetchedQuestions(questions);
+            setConsoleVisble(false)
+            // Call the resetCurrentQuestion function passed down from the child component
+
         }).catch(error => {
             console.error(error);
         });
@@ -47,12 +58,13 @@ export default function Quizmaster() {
     return (
         <div>
             <h1>Quiz Master Board - Parent Component </h1>
-            <Consoles
+            { consoleVisble&& <Consoles
                 categories={categories} difficulties={difficulties}
-                onSubmit={ fetchQuestions }
-            />
+                onSubmit={fetchQuestions}
+            />}
 
-            <Quiz  questions={ fetchedQuestions } />
+            { !consoleVisble &&
+                <Quiz questions={fetchedQuestions} quizComplete={quizComplete}/>}
         </div>
     );
 }

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import Select from "react-dropdown-select";
+// import { NavLink, useNavigate } from 'react-router-dom';
 
 export default function Consoles(props){
+    // const navigate = useNavigate();
+
     const [questionCount, setQuestionCount] = useState(0);
     const [category, setCategory] = useState(null);
     const [difficulty, setDifficulty] = useState(null);
@@ -19,9 +22,11 @@ export default function Consoles(props){
     const handleSubmit = (e) => {
         e.preventDefault();
         props.onSubmit({ questionCount, category, difficulty });
-        setQuestionCount(0);
-        setCategory(null);
-        setDifficulty(null);
+        // setQuestionCount(0);
+        // setCategory(null);
+        // setDifficulty(null);
+
+        // navigate('/quiz');
     }
 
     return(
