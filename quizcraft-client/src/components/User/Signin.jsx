@@ -26,19 +26,19 @@ const Signin = () => {
             })
             .catch((error) => {
                 _handleErrors(error)
-                navigate("/login")
+                navigate("/signin")
             });
     }
 
     return (
         <div>
+            { errorMessages && <div>{errorMessages.message}</div>}
             <form onSubmit={ _handleSubmit }>
                 <input type="text" placeholder='Enter your email' name="email" value={ email } onInput={ (e) => setEmail( e.target.value ) }/>
                 <input type="password" placeholder='Enter your password' value={ password } onInput={ (e) =>  setPassword( e.target.value ) }/>
-                <input type="submit" value="Log In" />
+                <input type="submit" value="Sign In" />
             </form>
-            { errorMessages && <div>{errorMessages.message}</div>}
-
+            
             <AnonLogin />
         </div>
     )
@@ -57,13 +57,13 @@ const AnonLogin = () => {
             })
             .catch((error) => {
                 alert(error.code);
-                navigate("/login")
+                navigate("/signin")
             });
     }
 
     return (
         <div>Anonymous login
-            <button onClick={ _signin }>Log In Anonymously</button>
+            <button onClick={ _signin }>Sign in Anonymously</button>
         </div>
     )
 }
