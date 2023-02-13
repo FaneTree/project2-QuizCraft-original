@@ -3,12 +3,14 @@ import Consoles from './Consoles';
 import axios from 'axios';
 import Quiz from "./Quiz";
 import Scores from "./Scores";
+import CountTimer from "../CountTimer";
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
 export default function Quizmaster() {
     // store the scores and messages from Quiz and send them to Scores
     const [score, setScore] = useState(0);
+    const [timer, setTimer] = useState(10);
     const [messages, setMessages] = useState("");
 
     const [consoleVisble,setConsoleVisble] = useState(true);
@@ -32,10 +34,9 @@ export default function Quizmaster() {
         {id:2, name:"Medium"},
         {id:3, name:"Hard"}];
 
-
     // state to store all the questions and answers received from the API
     const [fetchedQuestions, setFetchedQuestions] = useState([]);
-    const fetchQuestions = ({ questionCount, category, difficulty }) => {
+    const fetchQuestions = ({ questionCount, category, difficulty, timerSet }) => {
         const url = `https://opentdb.com/api.php?amount=${ questionCount }&category=${ category }&difficulty=${ difficulty.toLowerCase() }`;
         axios.get(url).then((response) => {
             // response.datat.results -> return an array of objects
@@ -48,6 +49,7 @@ export default function Quizmaster() {
                     incorrectAnswers: result.incorrect_answers
                 };
             });
+            setTimer(timerSet);
             setFetchedQuestions(questions);
             setConsoleVisble(false)
             // Call the resetCurrentQuestion function passed down from the child component
@@ -66,20 +68,35 @@ export default function Quizmaster() {
     return (
         <div>
             <h1>Quiz Master Board - Parent Component </h1>
+
             {!consoleVisble &&
-                <Scores currentScore={score} currentMessage={messages} />}
+                <Scores 
+                    currentScore={score} 
+                    currentMessage={messages} 
+                />}
 
-            { consoleVisble&& <Consoles
-                categories={categories} difficulties={difficulties}
-                onSubmit={fetchQuestions}
-            />}
-
-            { !consoleVisble &&
-                <Quiz questions={ fetchedQuestions } quizComplete={ quizComplete } fetchScore={ fetchScore } />
+            { consoleVisble && 
+                <Consoles
+                    categories={categories} 
+                    difficulties={difficulties}
+                    onSubmit={fetchQuestions} 
+                />
             }
 
+            { !consoleVisble &&
+                <Quiz 
+                    questions={ fetchedQuestions } 
+                    quizComplete={ quizComplete } 
+                    fetchScore={ fetchScore } 
+                    timer = { timer }
+                />
+            }
 
-
+            { !consoleVisble &&
+                <CountTimer
+                    timer = { timer } 
+                />
+            }
 
         </div>
     );

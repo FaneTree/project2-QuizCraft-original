@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import CountTimer from "../CountTimer";
 
 export default function Quiz (props){
     const [allQuestions, setAllQuestions] = useState([]);
@@ -37,9 +38,9 @@ export default function Quiz (props){
 
     const updateCurrentQuestion = () => {
        if(currentQuestion >= allQuestions.length -1 ){
-           setTimeout(()=>props.quizComplete(),3000 )
+           setTimeout(()=>props.quizComplete(), 3000 )
        }
-       setTimeout(()=>setCurrentQuestion(currentQuestion + 1),2000);
+       setTimeout(()=>setCurrentQuestion(currentQuestion + 1), props.timer * 1000);
    }
 
    // function to handle the answer selected
@@ -80,7 +81,7 @@ export default function Quiz (props){
                     )}</ul>
                 </div>
             )}
-
+            <CountTimer />
         </div>
     );
 }

@@ -9,6 +9,7 @@ import Signin from './Routes/Signin';
 import Home from './Routes/Home';
 import Quizmaster from './Quiz/Quizmaster';
 import Quiz from './Quiz/Quiz';
+import CountTimer from './CountTimer';
 
 function App() {
 
@@ -18,16 +19,16 @@ function App() {
             <div className = "Content">
                 <Routes>
                     <Route exact path="/" element={
-                            <Home />
+                        <Home />
                     } />
                     <Route exact path="/signup" element={
-                            <Signup />
+                        <Signup />
                     } />
                     <Route exact path="/signin" element={
-                            <Signin />
+                        <Signin />
                     } />
                     <Route exact path="/create" element={
-                            <Quizmaster />
+                        <Quizmaster />
                     } />
                     < Route exact path="/quiz" element={
                         <Quiz />
