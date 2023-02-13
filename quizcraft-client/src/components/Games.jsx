@@ -60,7 +60,7 @@ export default function Games(){
             setCurrentPoints(currentPoints - 1);
             // next line won't happen until host clicks for next question
         }
-        setTimeout(getTriviaData, 5000);
+        setTimeout(getTriviaData, 1000);
     }
 
     // converts html code to regular characters
@@ -102,6 +102,8 @@ export default function Games(){
                                         style = {backgroundColor: "green"}
                                     } else if (attempted && answer === incorrectAnswer) {
                                         style = {backgroundColor: "red"}
+                                    } else if (attempted && answer !== correctAnswer && incorrectAnswer) {
+                                        style = {backgroundColor: "#D3D3D3"}
                                     }
                                     return (<div key ={id}>
                                     <button className="answerBtns" style={style} key={id} onClick={() => verifyAnswer(answer)} >
