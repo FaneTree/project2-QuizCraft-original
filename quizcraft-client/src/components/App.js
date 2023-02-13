@@ -10,6 +10,7 @@ import Home from './Home';
 import Quizmaster from './Quiz/Quizmaster';
 
 function App() {
+
     return (
         <div className="App">
             <NavBar />

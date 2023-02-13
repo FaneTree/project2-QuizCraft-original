@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
-import {  useNavigate } from 'react-router-dom';
-import {  signInWithEmailAndPassword, signInAnonymously  } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+
+import { signInWithEmailAndPassword, signInAnonymously  } from 'firebase/auth';
 import { auth } from '../firebase.js';
 
 const Login = () => {
@@ -38,6 +39,7 @@ const Login = () => {
                 <input type="submit" value="Log In" />
             </form>
             { errorMessages && <div>{errorMessages.message}</div>}
+            
             <AnonLogin />
         </div>
     )

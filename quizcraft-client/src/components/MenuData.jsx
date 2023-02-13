@@ -1,17 +1,7 @@
-export const MenuDataNew = [
+export const MenuData = [
     {
         title: "Home",
         url: "/",
-        className: 'nav-links'
-    },
-    {
-        title: "Sign Up",
-        url: "/signup",
-        className: 'nav-links'
-    },
-    {
-        title: "Login",
-        url: "/login",
         className: 'nav-links'
     },
     {
@@ -21,25 +11,15 @@ export const MenuDataNew = [
     }
 ]
 
-export const MenuData = [
+export const MenuDataLogin = [
     {
-        title: "Home",
-        url: "/",
-        className: 'nav-links'
-    },
-    {
-        title: "Sign Up",
+        title: "Sign up",
         url: "/signup",
         className: 'nav-links'
     },
     {
-        title: "Login",
+        title: "Sign in",
         url: "/login",
-        className: 'nav-links'
-    },
-    {
-        title: "Quiz",
-        url: "/quizs",
         className: 'nav-links'
     }
 ]
