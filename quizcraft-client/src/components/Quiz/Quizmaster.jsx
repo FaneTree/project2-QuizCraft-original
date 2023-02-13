@@ -22,26 +22,37 @@ export default function Quizmaster() {
         {id:3, name:"Hard"}];
 
 
-    const generateURL = ({ questionCount, category, difficulty }) => {
-        // const selectedDifficulty = difficulties.find(d => d.id === difficulty);
-        // const difficultyName = selectedDifficulty ? selectedDifficulty.name.toLowerCase() : '';
-        const URL = `https://opentdb.com/api.php?amount=${ questionCount }&category=${ category }&difficulty=${ difficulty.toLowerCase() }`
-        console.log(URL);
-        return URL
-    };
-
     // state to store all the questions and answers received from the API
+    const [fetchedQuestions, setFetchedQuestions] = useState([]);
+    const fetchQuestions = ({ questionCount, category, difficulty }) => {
+        const url = `https://opentdb.com/api.php?amount=${ questionCount }&category=${ category }&difficulty=${ difficulty.toLowerCase() }`;
+        axios.get(url).then((response) => {
+            // response.datat.results -> return an array of objects
+            // each object is a question-answer set
+            console.log("response data: ", response.data.results);
+            const questions = response.data.results.map(result => {
+                return {
+                    question: result.question,
+                    correctAnswer: result.correct_answer,
+                    incorrectAnswers: result.incorrect_answers
+                };
+            });
+            setFetchedQuestions(questions);
+        }).catch(error => {
+            console.error(error);
+        });
+    };
 
 
     return (
         <div>
-            <h1>Quizs</h1>
+            <h1>Quiz Master Board - Parent Component </h1>
             <Consoles
                 categories={categories} difficulties={difficulties}
-                onSubmit={generateURL}
+                onSubmit={ fetchQuestions }
             />
 
-            <Quiz  />
+            <Quiz  questions={ fetchedQuestions } />
         </div>
     );
 }
