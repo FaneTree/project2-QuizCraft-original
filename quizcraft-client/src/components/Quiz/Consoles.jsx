@@ -8,6 +8,7 @@ export default function Consoles(props){
     const [questionCount, setQuestionCount] = useState(0);
     const [category, setCategory] = useState(null);
     const [difficulty, setDifficulty] = useState(null);
+    const [timerSet, setTimerset] = useState(10);
 
     const handleCategoryChange = (selectedItems) => {
         const categoryId = selectedItems[0].id;
@@ -21,7 +22,7 @@ export default function Consoles(props){
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.onSubmit({ questionCount, category, difficulty });
+        props.onSubmit({ questionCount, category, difficulty, timerSet });
         // setQuestionCount(0);
         // setCategory(null);
         // setDifficulty(null);
@@ -44,6 +45,10 @@ export default function Consoles(props){
                 <section>
                     Difficulty:
                     <Select options={props.difficulties} labelField='name' valueField='id' onChange={handleDifficultyChange} />
+                </section>
+                <section>
+                    Timer in seconds:
+                    <input type="number" name="timerCount" value={timerSet} onChange={(e) => setTimerset(e.target.value)} min="10" max="60" />
                 </section>
                 <section>
                     <input type="submit" value="Submit"/>
