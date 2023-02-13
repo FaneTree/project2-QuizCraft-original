@@ -55,6 +55,8 @@ export default function Games(){
             setCurrentPoints(currentPoints + 1);
         } else {
             setCurrentPoints(currentPoints - 1);
+            // show selected answer is incorrect & show correct answer
+            // getTriviaData();
         }
     }
 
@@ -79,11 +81,11 @@ export default function Games(){
                             {removeCharacters(triviaData.question)}
                         </div>
                         <br />
-                        <div>
+                        <div className="allAnswers">
                             {
                                 allPossibleAnswers.map((answer, index) => 
                                 <div key ={index}>
-                                    <button key={index} onClick={() => verifyAnswer(answer)} >
+                                    <button className="answerBtns" key={index} onClick={() => verifyAnswer(answer)} >
                                         {removeCharacters(answer)}
                                     </button>
                                 </div> 
