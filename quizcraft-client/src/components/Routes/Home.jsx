@@ -1,5 +1,5 @@
 import React from "react";
-import Games from "./Games"
+import Games from "../Games"
 
 export default function Home (){
 

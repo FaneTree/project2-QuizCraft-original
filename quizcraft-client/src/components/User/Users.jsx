@@ -1,6 +1,6 @@
 import React,{ Component } from "react";
-import Signup from "./Signup";
-import Signin from "./Signin";
+import Signup from "../Routes/Signup";
+import Signin from "../Routes/Signin";
 
 const User = ()=>{
     return(

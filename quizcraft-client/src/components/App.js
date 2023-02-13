@@ -4,9 +4,9 @@ import { Routes, Route } from "react-router-dom";
 import "../App.scss";
 
 import NavBar from "./NavBar"
-import Signup from './User/Signup';
-import Signin from './User/Signin';
-import Home from './Home';
+import Signup from './Routes/Signup';
+import Signin from './Routes/Signin';
+import Home from './Routes/Home';
 import Quizmaster from './Quiz/Quizmaster';
 
 function App() {
