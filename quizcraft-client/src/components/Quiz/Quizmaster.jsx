@@ -6,6 +6,10 @@ import Quiz from "./Quiz";
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
 export default function Quizmaster() {
+    const quizComplete = ()=>{
+        console.log("quiz complete !!!!!")
+    }
+
     // state to receive category info from the API
     const [categories, setCategories] = useState([]);
     // call the category API and store the info to the state
@@ -38,6 +42,8 @@ export default function Quizmaster() {
                 };
             });
             setFetchedQuestions(questions);
+            // Call the resetCurrentQuestion function passed down from the child component
+
         }).catch(error => {
             console.error(error);
         });
@@ -52,7 +58,7 @@ export default function Quizmaster() {
                 onSubmit={ fetchQuestions }
             />
 
-            <Quiz  questions={ fetchedQuestions } />
+            <Quiz  questions={ fetchedQuestions } quizComplete={quizComplete} />
         </div>
     );
 }

@@ -7,9 +7,17 @@ export default function Quiz (props){
     useEffect(() => {
         setAllQuestions(props.questions);
         console.log("useEffect: ", props.questions);
+        setCurrentQuestion(0);
     }, [props.questions]);
 
     const currentQuestionData = allQuestions[currentQuestion];
+
+   const updateCurrentQuestion = () => {
+       if(currentQuestion >= allQuestions.length -1 ){
+           props.quizComplete()
+       }
+       setCurrentQuestion(currentQuestion + 1);
+   }
 
     return (
         <div>
@@ -21,7 +29,7 @@ export default function Quiz (props){
                     <p>Incorrect answers: {currentQuestionData.incorrectAnswers.join(", ")}</p>
                 </div>
             )}
-            <button onClick={() => setCurrentQuestion(currentQuestion + 1)}>
+            <button onClick={ updateCurrentQuestion }>
                 Next Question
             </button>
         </div>

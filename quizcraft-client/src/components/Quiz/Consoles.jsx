@@ -19,9 +19,9 @@ export default function Consoles(props){
     const handleSubmit = (e) => {
         e.preventDefault();
         props.onSubmit({ questionCount, category, difficulty });
-        setQuestionCount(0);
-        setCategory(null);
-        setDifficulty(null);
+        // setQuestionCount(0);
+        // setCategory(null);
+        // setDifficulty(null);
     }
 
     return(
