@@ -14,7 +14,7 @@ export default function Games(){
     const [attempted, setAttempted] = useState(false);
 
 
-    // combines correct & incorrect answers into a single array
+    // // combines correct & incorrect answers into a single array
     async function combineAllAnswers(incorrectAnswers, correctAnswer) {
         let allAnswers = [];
         incorrectAnswers.map((item) => {
@@ -86,18 +86,29 @@ export default function Games(){
                         <br />
                         <div className="allAnswers">
                             {
-                                allPossibleAnswers.map((answer, index) => {
+                                allPossibleAnswers.map((answer, id) => {
                                     let style;
+                                    if (id === 1) {
+                                        style = {backgroundColor: "#AEC6CF"}
+                                    } else if (id === 2) {
+                                        style = {backgroundColor: "#F49AC2"}
+                                    } else if (id === 3) {
+                                        style = {backgroundColor: "#967BB6"}
+                                    } else {
+                                        style = {backgroundColor: "#FFB347"}
+                                    }
+
                                     if (attempted && answer === correctAnswer) {
                                         style = {backgroundColor: "green"}
                                     } else if (attempted && answer === incorrectAnswer) {
                                         style = {backgroundColor: "red"}
                                     }
-                                    return (<div key ={index}>
-                                    <button className="answerBtns" style={style} key={index} onClick={() => verifyAnswer(answer)} >
+                                    return (<div key ={id}>
+                                    <button className="answerBtns" style={style} key={id} onClick={() => verifyAnswer(answer)} >
                                         {removeCharacters(answer)}
                                     </button>
                                     </div> )
+  
                                 }
                                 
                                 )

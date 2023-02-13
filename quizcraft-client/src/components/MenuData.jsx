@@ -8,7 +8,13 @@ export const MenuData = [
         title: "Create",
         url: "/create",
         className: 'nav-links'
+    },
+    {
+        title: "Lobby",
+        url: "/lobby",
+        className: 'nav-links'
     }
+
 ]
 
 export const MenuDataLogin = [
