@@ -5,8 +5,8 @@ export const MenuData = [
         className: 'nav-links'
     },
     {
-        title: "Quiz",
-        url: "/quizs",
+        title: "Create",
+        url: "/create",
         className: 'nav-links'
     }
 ]
@@ -19,7 +19,7 @@ export const MenuDataLogin = [
     },
     {
         title: "Sign in",
-        url: "/login",
+        url: "/signin",
         className: 'nav-links'
     }
 ]

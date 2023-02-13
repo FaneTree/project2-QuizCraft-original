@@ -25,7 +25,7 @@ function App() {
                     <Route exact path="/signin" element={
                             <Signin />
                     } />
-                    <Route exact path="/quizs" element={
+                    <Route exact path="/create" element={
                             <Quizmaster />
                     } />
                 </Routes>
