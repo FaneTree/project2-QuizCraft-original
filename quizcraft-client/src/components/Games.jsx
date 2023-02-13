@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 export default function Games(){
     
-    // most of lines 9 - 102 copied from https://github.com/AndyUGA/trivia-api-tutorial-project/blob/main/src/App.js
+    // most of lines 9 - 113 copied from https://github.com/AndyUGA/trivia-api-tutorial-project/blob/main/src/App.js
     const [triviaQuestion, setTriviaQuestion] = useState([]);
     const [correctAnswer, setCorrectAnswer] = useState("");
     const [currentPoints, setCurrentPoints] = useState(0);
@@ -51,24 +51,14 @@ export default function Games(){
         getTriviaData();
     }, []);
 
-    // function answerStatus() {
-    //     const [right, setRight] = useState(false);
-    //     const [wrong, setWrong] = useState(false);
-    // }
-
     function verifyAnswer(selectedAnswer) {
         setAttempted(true);
         if (selectedAnswer === correctAnswer) {
-            
             setCurrentPoints(currentPoints + 1);
-            // show selectedAnswer is correct; selectedAnswer = green
         } else {
             setIncorrectAnswer(selectedAnswer)
             setCurrentPoints(currentPoints - 1);
-            // show selected answer is incorrect & show correct answer
-            // selectedAnswer => red, correctAnswer => green
             // next line won't happen until host clicks for next question
-            // or wait 5 seconds
         }
         setTimeout(getTriviaData, 5000);
     }
