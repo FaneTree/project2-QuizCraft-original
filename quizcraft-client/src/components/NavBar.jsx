@@ -1,8 +1,20 @@
 import React from 'react';
-import { MenuData } from './MenuData';
+import { MenuData, MenuDataLogin } from './MenuData';
 import { Link } from "react-router-dom";
 
+import { auth } from './firebase.js';
+import {useAuthState} from 'react-firebase-hooks/auth';
+
 const NavBar = () => {
+    const [user] = useAuthState(auth);
+    const _logout = () => {
+        auth.signOut();
+    }
+    
+    console.log('user is')
+    console.log(user);
+    console.log(user? true : false);
+
     return(
         <nav className = 'nav'>
             <div>
@@ -22,6 +34,16 @@ const NavBar = () => {
                         </li>
                     );
                 })}
+                { user ? <li onClick={_logout}><a>Logout</a></li> : MenuDataLogin.map((item,index) => {
+                        return (
+                            <li key = {index}>
+                                <Link to = {item.url}>
+                                    {item.title}
+                                </Link>
+                            </li>
+                        );
+                    })
+                }
             </ul>
         </nav>
     );
