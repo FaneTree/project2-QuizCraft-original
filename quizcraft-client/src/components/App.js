@@ -5,7 +5,7 @@ import "../App.scss";
 
 import NavBar from "./NavBar"
 import Signup from './User/Signup';
-import Login from './User/Login';
+import Signin from './User/Signin';
 import Home from './Home';
 import Quizmaster from './Quiz/Quizmaster';
 import Quiz from './Quiz/Quiz';
@@ -23,10 +23,10 @@ function App() {
                     <Route exact path="/signup" element={
                             <Signup />
                     } />
-                    <Route exact path="/login" element={
-                            <Login />
+                    <Route exact path="/signin" element={
+                            <Signin />
                     } />
-                    <Route exact path="/quizs" element={
+                    <Route exact path="/create" element={
                             <Quizmaster />
                     } />
                     < Route exact path="/quiz" element={

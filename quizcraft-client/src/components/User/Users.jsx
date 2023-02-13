@@ -1,16 +1,14 @@
 import React,{ Component } from "react";
 import Signup from "./Signup";
-import Login from "./Login";
+import Signin from "./Signin";
 
 const User = ()=>{
     return(
         <div>
             <Signup />
-            <Login />
+            <Signin />
         </div>
     )
 }
-
-
 
 export default User;

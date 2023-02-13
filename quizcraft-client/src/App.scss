@@ -4,17 +4,27 @@
 
 body {
     margin: 0;
-    background: #D6D6D6;
+    background: #FEFCFF;
     color: #404040;
 }
 
 .Content {
     margin: 0 1rem;
+    .allAnswers {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        .answerBtns {
+            font-size: 16px;
+            padding: 2em;
+        }
+    }
 }
 
 .nav {
-    background: linear-gradient(to right,#4F4F51, #2c2B30);
-    color: #d7d7d7;
+    // https://gradients.shecodes.io/gradients/598
+    background: linear-gradient(109.6deg, rgb(157, 75, 199) 11.2%, rgb(119, 81, 204) 83.1%);
+    color: #FEFCFF;
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-content: space-between;
