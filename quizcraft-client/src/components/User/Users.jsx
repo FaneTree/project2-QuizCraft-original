@@ -1,12 +1,12 @@
 import React,{ Component } from "react";
 import Signup from "./Signup";
-import Login from "./Signin";
+import Signin from "./Signin";
 
 const User = ()=>{
     return(
         <div>
             <Signup />
-            <Login />
+            <Signin />
         </div>
     )
 }
