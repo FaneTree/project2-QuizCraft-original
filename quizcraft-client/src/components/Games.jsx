@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 export default function Games(){
     
-    // most of lines 9 - 113 copied from https://github.com/AndyUGA/trivia-api-tutorial-project/blob/main/src/App.js
+    // most of lines are copied from https://github.com/AndyUGA/trivia-api-tutorial-project/blob/main/src/App.js
     const [triviaQuestion, setTriviaQuestion] = useState([]);
     const [correctAnswer, setCorrectAnswer] = useState("");
     const [currentPoints, setCurrentPoints] = useState(0);
