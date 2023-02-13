@@ -1,6 +1,6 @@
 import React,{ Component } from "react";
 import Signup from "./Signup";
-import Login from "./Login";
+import Login from "./Signin";
 
 const User = ()=>{
     return(
@@ -10,7 +10,5 @@ const User = ()=>{
         </div>
     )
 }
-
-
 
 export default User;

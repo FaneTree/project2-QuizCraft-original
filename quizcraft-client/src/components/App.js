@@ -5,7 +5,7 @@ import "../App.scss";
 
 import NavBar from "./NavBar"
 import Signup from './User/Signup';
-import Login from './User/Login';
+import Login from './User/Signin';
 import Home from './Home';
 import Quizmaster from './Quiz/Quizmaster';
 
