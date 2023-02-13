@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import Consoles from './Consoles';
 import axios from 'axios';
 import Quiz from "./Quiz";
-import { NavLink, useNavigate } from 'react-router-dom';
+import Scores from "./Scores";
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
 export default function Quizmaster() {
+    // store the scores and messages from Quiz and send them to Scores
+    const [score, setScore] = useState(0);
+    const [messages, setMessages] = useState("");
 
     const [consoleVisble,setConsoleVisble] = useState(true);
     const quizComplete = ()=>{
@@ -54,17 +57,30 @@ export default function Quizmaster() {
         });
     };
 
+    const fetchScore = ( score , scoreMessage ) => {
+        setScore(score);
+        setMessages(scoreMessage);
+        // console.log("!!!!$$$$", scoreMessage)
+    }
 
     return (
         <div>
             <h1>Quiz Master Board - Parent Component </h1>
+            {!consoleVisble &&
+                <Scores currentScore={score} currentMessage={messages} />}
+
             { consoleVisble&& <Consoles
                 categories={categories} difficulties={difficulties}
                 onSubmit={fetchQuestions}
             />}
 
             { !consoleVisble &&
-                <Quiz questions={fetchedQuestions} quizComplete={quizComplete}/>}
+                <Quiz questions={ fetchedQuestions } quizComplete={ quizComplete } fetchScore={ fetchScore } />
+            }
+
+
+
+
         </div>
     );
 }

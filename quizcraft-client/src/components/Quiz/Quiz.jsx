@@ -5,6 +5,8 @@ export default function Quiz (props){
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [choices, setChoices] = useState([]);
     const [score, setScore] = useState(0);
+    const [scoreMessage, setScoreMessage] = useState("Enjoy your quiz!");
+
 
     // make a copy of the question-answer set in the child
     useEffect(() => {
@@ -35,9 +37,9 @@ export default function Quiz (props){
 
     const updateCurrentQuestion = () => {
        if(currentQuestion >= allQuestions.length -1 ){
-           setTimeout(()=>props.quizComplete(),7000 )
+           setTimeout(()=>props.quizComplete(),3000 )
        }
-       setCurrentQuestion(currentQuestion + 1);
+       setTimeout(()=>setCurrentQuestion(currentQuestion + 1),2000);
    }
 
    // function to handle the answer selected
@@ -45,10 +47,23 @@ export default function Quiz (props){
         console.log("event listener: ", answer.target.value);
         console.log("correct answer: ", currentQuestionData.correctAnswer);
         if(answer.target.value === currentQuestionData.correctAnswer){
-            setScore(score + 1);
+            const updatedScore = score + 1
+            setScore( updatedScore );
+            // props.fetchScore( score )
+
+            const updatedScoreMessage = 'Good Job. You score 1 point!'
+            setScoreMessage ( updatedScoreMessage )
+            props.fetchScore ( score, scoreMessage ) // send back 2 arguments at the same time instead of doing separately
             updateCurrentQuestion();
         }else{
-            setScore(score - 1);
+            const updatedScore = score - 1
+            setScore( updatedScore );
+            // props.fetchScore( score )
+
+            const updatedScoreMessage = 'Damn, your idot. You lost 1 point!'
+            setScoreMessage ( updatedScoreMessage )
+            props.fetchScore ( score, scoreMessage )
+
             updateCurrentQuestion();
         }
     }
@@ -58,17 +73,14 @@ export default function Quiz (props){
             <h3>Quiz - child component</h3>
             {currentQuestionData && (
                 <div>
-                    <h4>{currentQuestionData.question}</h4>
-                    <h5>Score: {score}</h5>
+                    <h3>Question #{ currentQuestion +1 }: {currentQuestionData.question}</h3>
                     <ul>{choices.map((choice, index)=>{
                         return <li key={index}><button onClick={ _handleAnswerSelected } value={choice}>{ choice }</button></li>
                         }
                     )}</ul>
                 </div>
             )}
-            <button onClick={ updateCurrentQuestion }>
-                Next Question
-            </button>
+
         </div>
     );
 }
