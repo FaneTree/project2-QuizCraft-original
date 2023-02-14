@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymousl, GoogleAuthProvider } from "firebase/auth";
 import { getDatabase } from "firebase/database";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDxO9JBNdopZ7uLmdFqnMV_MgbIie2yA5g",
@@ -18,6 +18,7 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 export const provider = new GoogleAuthProvider();
+export const usersRef = collection(db, "users");
 
 // Initialize Firebase Authentication and get a reference to the service
 export { auth, database, db };
