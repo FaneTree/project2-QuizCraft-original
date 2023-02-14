@@ -4,6 +4,8 @@ import axios from 'axios';
 import Quiz from "./Quiz";
 import Scores from "./Scores";
 import CountTimer from "../CountTimer";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase";
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
@@ -34,30 +36,49 @@ export default function Quizmaster() {
         {id:2, name:"Medium"},
         {id:3, name:"Hard"}];
 
+
     // state to store all the questions and answers received from the API
     const [fetchedQuestions, setFetchedQuestions] = useState([]);
+
+    // TODO: a variable to create a 'game' path which can be later used an identifier
+    let new_path = '001'
     const fetchQuestions = ({ questionCount, category, difficulty, timerSet }) => {
         const url = `https://opentdb.com/api.php?amount=${ questionCount }&category=${ category }&difficulty=${ difficulty.toLowerCase() }`;
-        axios.get(url).then((response) => {
-            // response.datat.results -> return an array of objects
-            // each object is a question-answer set
-            console.log("response data: ", response.data.results);
-            const questions = response.data.results.map(result => {
-                return {
-                    question: result.question,
-                    correctAnswer: result.correct_answer,
-                    incorrectAnswers: result.incorrect_answers
-                };
-            });
-            setTimer(timerSet);
-            setFetchedQuestions(questions);
-            setConsoleVisble(false)
-            // Call the resetCurrentQuestion function passed down from the child component
+        axios.get(url)
+            .then((response) => {
+                console.log("response data: ", response.data.results);
+                const questions = response.data.results.map((result, index) => {
+                    return {
+                        question: result.question,
+                        correctAnswer: result.correct_answer,
+                        incorrectAnswers: result.incorrect_answers
+                    };
+                });
+                setTimer(timerSet);
+                setFetchedQuestions(questions);
+                setConsoleVisble(false);
 
-        }).catch(error => {
-            console.error(error);
-        });
+                const questionsToFirestore = response.data.results.map((result, index) => {
+                    return {
+                        [index]: {
+                            questionText: result.question,
+                            correct: result.correct_answer,
+                            incorrect: result.incorrect_answers,
+                        }
+                    };
+                });
+                console.log("FIRESTORE :", questionsToFirestore);
+                return questionsToFirestore;
+            })
+            .then((questionsToFirestore) => {
+                const docRef = doc(db, "games", new_path);
+                setDoc(docRef, { questions: questionsToFirestore });
+            })
+            .catch(error => {
+                console.error(error);
+            });
     };
+
 
     const fetchScore = ( score , scoreMessage ) => {
         setScore(score);
