@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase.js';
+import { auth, db } from '../firebase.js';
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
  
 const Signup = () => {
     const navigate = useNavigate();
@@ -9,23 +10,23 @@ const Signup = () => {
     const [password, setPassword] = useState('');
 
     const [error, setError] = useState(null);
-    const _handleError = (error)=>{
-        setError(error.message);
-    }
 
     const onSubmit = async (e) => {
       e.preventDefault()
-     
-      await createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            console.log("A user has signed up --- ", user);
-            navigate("/")
-        })
-        .catch((error) => {
-            _handleError(error)
-            navigate("/signup")
-        });
+      try{
+          const userCredential = await createUserWithEmailAndPassword(auth,email,password);
+          const user = userCredential.user;
+          const userCollectionRef = collection(db, 'users');
+          console.log("A user has signed up: ", user);
+
+          // create a user document in the Firestore 'users' collection
+          await addDoc(userCollectionRef, {
+              email: user.email,
+          });
+          navigate('/');
+      } catch (error) {
+          setError(error)
+      }
     }
  
     return (
