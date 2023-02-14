@@ -10,6 +10,12 @@ import { db } from "../firebase";
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
 export default function Quizmaster() {
+    // converts html code to regular characters
+    function removeCharacters(question) {
+        // regex aye
+        return question.replace(/(&quot\;)/g, "\"").replace(/(&rsquo\;)/g, "\"").replace(/(&#039\;)/g, "\'").replace(/(&amp\;)/g, "\"");
+    }
+
     // store the scores and messages from Quiz and send them to Scores
     const [score, setScore] = useState(0);
     const [timer, setTimer] = useState(10);
@@ -51,7 +57,7 @@ export default function Quizmaster() {
     const [fetchedQuestions, setFetchedQuestions] = useState([]);
 
     // TODO: a variable to create a 'game' path which can be later used an identifier
-    let new_path = '002';
+    let new_path = '009';
     const fetchQuestions = ({ questionCount, category, difficulty, timerSet }) => {
         const url = `https://opentdb.com/api.php?amount=${ questionCount }&category=${ category }&difficulty=${ difficulty.toLowerCase() }`;
         axios.get(url)
@@ -59,7 +65,7 @@ export default function Quizmaster() {
                 console.log("response data: ", response.data.results);
                 const questions = response.data.results.map((result, index) => {
                     return {
-                        question: result.question,
+                        question: removeCharacters(result.question),
                         correctAnswer: result.correct_answer,
                         incorrectAnswers: result.incorrect_answers
                     };
@@ -71,7 +77,7 @@ export default function Quizmaster() {
                 const questionsToFirestore = response.data.results.map((result, index) => {
                     return {
                         [index]: {
-                            questionText: result.question,
+                            questionText: removeCharacters(result.question),
                             correct: result.correct_answer,
                             incorrect: result.incorrect_answers,
                         }
