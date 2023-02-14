@@ -4,12 +4,13 @@ import { getDatabase } from "firebase/database";
 import { getFirestore, collection } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDxO9JBNdopZ7uLmdFqnMV_MgbIie2yA5g",
-  authDomain: "chatroom-505af.firebaseapp.com",
-  projectId: "chatroom-505af",
-  storageBucket: "chatroom-505af.appspot.com",
-  messagingSenderId: "129729820912",
-  appId: "1:129729820912:web:600863400a1ab63ac72a35",
+  apiKey: "AIzaSyButnK-Dk8UHulxj3lRrXp3cjRLKWdtz5o",
+  authDomain: "ga-project-quizcraft.firebaseapp.com",
+  projectId: "ga-project-quizcraft",
+  storageBucket: "ga-project-quizcraft.appspot.com",
+  messagingSenderId: "937516728945",
+  appId: "1:937516728945:web:0c048ff474bc2ac35551d0",
+  measurementId: "G-NL0RSD8BZ9"
 };
 
 // Initialize Firebase

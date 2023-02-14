@@ -31,6 +31,11 @@ export default function Listgames(){
         }).catch(error=>console.log(error.message));
     }
 
+    // converts html code to regular characters
+    function removeCharacters(question) {
+        // regex aye
+        return question.replace(/(&quot\;)/g, "\"").replace(/(&rsquo\;)/g, "\"").replace(/(&#039\;)/g, "\'").replace(/(&amp\;)/g, "\"");
+    }
 
     return (
         <div>
@@ -43,7 +48,7 @@ export default function Listgames(){
                     {game.questions.map((question, index) => (
                         <div key={ index }>
                             <p>This is Question# { index }</p>
-                            <p>The question is: {question[index].questionText}</p>
+                            <p>The question is: {removeCharacters(question[index].questionText)}</p>
                         </div>
                     ))}
                 </div>
