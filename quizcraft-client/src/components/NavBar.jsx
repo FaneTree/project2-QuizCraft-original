@@ -10,10 +10,6 @@ const NavBar = () => {
     const _logout = () => {
         auth.signOut();
     }
-    
-    console.log('user is')
-    console.log(user);
-    console.log(user? true : false);
 
     return(
         <nav className = 'nav'>

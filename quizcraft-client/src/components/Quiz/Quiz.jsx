@@ -8,7 +8,6 @@ export default function Quiz (props){
     const [score, setScore] = useState(0);
     const [scoreMessage, setScoreMessage] = useState("Enjoy your quiz!");
 
-
     // make a copy of the question-answer set in the child
     useEffect(() => {
         setAllQuestions(props.questions);
@@ -35,13 +34,12 @@ export default function Quiz (props){
         }
     },[currentQuestionData])
 
-
     const updateCurrentQuestion = () => {
        if(currentQuestion >= allQuestions.length -1 ){
            setTimeout(()=>props.quizComplete(), 3000 )
        }
        setTimeout(()=>setCurrentQuestion(currentQuestion + 1), props.timer * 1000);
-   }
+    }
 
    // function to handle the answer selected
     const _handleAnswerSelected = (answer) => {
@@ -81,7 +79,8 @@ export default function Quiz (props){
                     )}</ul>
                 </div>
             )}
-            <CountTimer />
+            { console.log(props.timer)}
+            <CountTimer timer = { props.timer }  />
         </div>
     );
 }

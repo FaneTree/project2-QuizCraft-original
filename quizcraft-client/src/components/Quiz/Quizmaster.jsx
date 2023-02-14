@@ -3,7 +3,6 @@ import Consoles from './Consoles';
 import axios from 'axios';
 import Quiz from "./Quiz";
 import Scores from "./Scores";
-import CountTimer from "../CountTimer";
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
@@ -89,12 +88,6 @@ export default function Quizmaster() {
                     quizComplete={ quizComplete } 
                     fetchScore={ fetchScore } 
                     timer = { timer }
-                />
-            }
-
-            { !consoleVisble &&
-                <CountTimer
-                    timer = { timer } 
                 />
             }
 
