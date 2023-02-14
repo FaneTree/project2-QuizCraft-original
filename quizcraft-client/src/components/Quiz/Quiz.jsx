@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import CountTimer from "../CountTimer";
 
 export default function Quiz (props){
     const [allQuestions, setAllQuestions] = useState([]);
@@ -41,6 +40,9 @@ export default function Quiz (props){
        setTimeout(()=>setCurrentQuestion(currentQuestion + 1), 2000);
    }
 
+   // define counter to countdown
+   let counter = props.timer;
+
    // function to handle the answer selected
     const _handleAnswerSelected = (answer) => {
         console.log("event listener: ", answer.target.value);
@@ -54,6 +56,7 @@ export default function Quiz (props){
             setScoreMessage ( updatedScoreMessage )
             props.fetchScore ( score, scoreMessage ) // send back 2 arguments at the same time instead of doing separately
             updateCurrentQuestion();
+            props.countDowntimer( counter );
         }else{
             const updatedScore = score - 1
             setScore( updatedScore );
@@ -62,8 +65,8 @@ export default function Quiz (props){
             const updatedScoreMessage = 'Damn, your idot. You lost 1 point!'
             setScoreMessage ( updatedScoreMessage )
             props.fetchScore ( score, scoreMessage )
-
             updateCurrentQuestion();
+            props.countDowntimer( counter );
         }
     }
 
@@ -79,8 +82,7 @@ export default function Quiz (props){
                     )}</ul>
                 </div>
             )}
-            { console.log(props.timer)}
-            <CountTimer timer = { props.timer }  />
+            { counter }
         </div>
     );
 }

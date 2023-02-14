@@ -18,6 +18,16 @@ export default function Quizmaster() {
         console.log("quiz complete !!!!!")
     }
 
+    // create timer function to countdown and pass to Quiz
+
+    const countDownTimer = (counter) => {
+        if (counter > 0) {
+            setTimeout(() => { counter = counter - 1 } , 1000 );
+        }
+        countDownTimer(counter);
+    }
+
+
     // state to receive category info from the API
     const [categories, setCategories] = useState([]);
     // call the category API and store the info to the state
@@ -52,7 +62,6 @@ export default function Quizmaster() {
             setFetchedQuestions(questions);
             setConsoleVisble(false)
             // Call the resetCurrentQuestion function passed down from the child component
-
         }).catch(error => {
             console.error(error);
         });
@@ -88,6 +97,7 @@ export default function Quizmaster() {
                     quizComplete={ quizComplete } 
                     fetchScore={ fetchScore } 
                     timer = { timer }
+                    Countdown = { countDownTimer }
                 />
             }
 
