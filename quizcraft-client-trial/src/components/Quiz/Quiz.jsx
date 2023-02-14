@@ -8,6 +8,7 @@ export default function Quiz (props){
     const [score, setScore] = useState(0);
     const [scoreMessage, setScoreMessage] = useState("Enjoy your quiz!");
 
+
     // make a copy of the question-answer set in the child
     useEffect(() => {
         setAllQuestions(props.questions);
@@ -33,6 +34,7 @@ export default function Quiz (props){
             setChoices(shuffle([...currentQuestionData.incorrectAnswers, currentQuestionData.correctAnswer]))
         }
     },[currentQuestionData])
+
 
     const updateCurrentQuestion = () => {
        if(currentQuestion >= allQuestions.length -1 ){
@@ -79,8 +81,7 @@ export default function Quiz (props){
                     )}</ul>
                 </div>
             )}
-            { console.log(props.timer)}
-            <CountTimer timer = { props.timer }  />
+            <CountTimer />
         </div>
     );
 }
