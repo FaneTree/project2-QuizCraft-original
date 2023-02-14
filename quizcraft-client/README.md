@@ -30,7 +30,7 @@ flowchart TD
 5. `npm i react-firebase-hooks` for the manipulation of Firebase usercredentials 
 6. `npm install --save react-dropdown-select` for dropdown selection
 
-# 13-02-2022
+# 13-02-2023
 1. To display a question at a time 
     ```mermaid 
    flowchart TD
@@ -39,3 +39,23 @@ flowchart TD
     ```
    - Parent component: 1) talk to API 2) store all questions in the state]
    - Child component: 1) receive all the questions in the sate 2) have a current variable in the state to display one question at e]
+
+# 14-02-2023
+1. Realtime Database setup in Firebase 
+    ```
+    {
+        "rules": {
+        ".read": "now < 1678885200000",  // 2023-3-16
+        ".write": "now < 1678885200000",  // 2023-3-16
+        "players":{
+        "$uid":{
+        ".write":"auth != null && auth.uid == $uid", // only the player in session can write
+        "score":{
+        ".write":"auth != null && auth.uid == $uid" // only the player in session can write
+        }
+        }
+        }
+        }
+        }
+
+   ```
