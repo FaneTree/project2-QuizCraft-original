@@ -41,7 +41,7 @@ export default function Quizmaster() {
     const [fetchedQuestions, setFetchedQuestions] = useState([]);
 
     // TODO: a variable to create a 'game' path which can be later used an identifier
-    let new_path = '001'
+    let new_path = '002';
     const fetchQuestions = ({ questionCount, category, difficulty, timerSet }) => {
         const url = `https://opentdb.com/api.php?amount=${ questionCount }&category=${ category }&difficulty=${ difficulty.toLowerCase() }`;
         axios.get(url)
