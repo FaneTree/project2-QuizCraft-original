@@ -1,14 +1,96 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Select from "react-dropdown-select";
-// import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import {doc, setDoc, addDoc} from "firebase/firestore";
+import {db} from "../firebase";
+import { auth } from '../firebase.js';
+import {useAuthState} from 'react-firebase-hooks/auth';
+
+const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
 export default function Consoles(props){
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
+    // trivia API //////////////////
+    // Category:
+    const [categories, setCategories] = useState([]); // for API
+    const [category, setCategory] = useState(""); // for after-selection
+    // call the category API and store the info to the state
+    useEffect(() => {
+        axios.get(CATEGORIES_URL).then((response) => {
+            setCategories(response.data.trivia_categories);
+        });
+    }, []);
+
+    // Difficulty:
+    const [difficulty, setDifficulty] = useState(null);
+    const difficulties = [
+        {id:1, name:"Easy"},
+        {id:2, name:"Medium"},
+        {id:3, name:"Hard"}];
 
     const [questionCount, setQuestionCount] = useState(0);
-    const [category, setCategory] = useState(null);
-    const [difficulty, setDifficulty] = useState(null);
+
     const [timerSet, setTimerset] = useState(10);
+
+
+
+    /////////////////////////
+    // Question Text Cleansing: converts html code to regular characters
+    function removeCharacters(question) {
+        // regex aye
+        return question.replace(/(&quot\;)/g, "\"").replace(/(&rsquo\;)/g, "\"").replace(/(&#039\;)/g, "\'").replace(/(&amp\;)/g, "\"");
+    }
+    // this random number becomes the Document ID in the 'games' collection
+    const new_path = Math.floor(Math.random() * 1000000).toString().padStart(6, "0");
+    // this user will be pushed into the same document and set as 'Host'
+    const [user] = useAuthState(auth);
+
+    // this redirect url generate from new_path and user_id
+    const redirectUrl = `/host/${ new_path }/as/${ user.uid }`
+
+    // function to shuffle the answer array before being pushed to Firestore
+    const shuffle = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
+
+    // Function: 1) receive API data and store them in different States; 2) pass the data to Firestore
+    const fetchQuestions = ({ questionCount, category, difficulty }) => {
+        const url = `https://opentdb.com/api.php?amount=${ questionCount }&category=${ category }&difficulty=${ difficulty.toLowerCase() }`;
+        axios.get(url)
+            .then((response) => {
+                const questionsToFirestore = response.data.results.map((result, index) => {
+                    return {
+                        [index]: {
+                            questionText: removeCharacters(result.question),
+                            correct: removeCharacters(result.correct_answer),
+                            incorrect: result.incorrect_answers,
+                            shuffledAnswers: shuffle([...result.incorrect_answers, result.correct_answer]),
+                        }
+                    };
+                });
+                console.log("Question Set Sent to Firestore: ", questionsToFirestore);
+                const gameData = {
+                    questions: questionsToFirestore,
+                    host: user.displayName,
+                    currentQuestion: 0, 
+                    gameStart: false, 
+                };
+                return gameData;
+            }) // send the data to Firestore
+            .then((gameData) => {
+                const docRef = doc(db, "games", new_path);
+                setDoc (docRef, {room: gameData });
+                // addDoc (docRef,  {host:user.displayName})
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
 
     const handleCategoryChange = (selectedItems) => {
         const categoryId = selectedItems[0].id;
@@ -20,14 +102,11 @@ export default function Consoles(props){
         setDifficulty(difficultyId);
     }
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.onSubmit({ questionCount, category, difficulty, timerSet });
-        // setQuestionCount(0);
-        // setCategory(null);
-        // setDifficulty(null);
-
-        // navigate('/quiz');
+        fetchQuestions({ questionCount, category, difficulty, timerSet });
+        navigate(redirectUrl);
     }
 
     return(
@@ -40,11 +119,11 @@ export default function Consoles(props){
                 </section>
                 <section>
                     Category:
-                    <Select options={props.categories} labelField='name' valueField='id' onChange={handleCategoryChange} />
+                    <Select options={categories} labelField='name' valueField='id' onChange={handleCategoryChange} />
                 </section>
                 <section>
                     Difficulty:
-                    <Select options={props.difficulties} labelField='name' valueField='id' onChange={handleDifficultyChange} />
+                    <Select options={difficulties} labelField='name' valueField='id' onChange={handleDifficultyChange} />
                 </section>
                 <section>
                     Timer in seconds:

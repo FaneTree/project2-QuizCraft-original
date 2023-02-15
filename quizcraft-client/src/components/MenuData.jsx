@@ -6,7 +6,7 @@ export const MenuData = [
     },
     {
         title: "Create",
-        url: "/create",
+        url: "/games/create",
         className: 'nav-links'
     },
     {
@@ -18,11 +18,6 @@ export const MenuData = [
 ]
 
 export const MenuDataLogin = [
-    {
-        title: "Sign up",
-        url: "/signup",
-        className: 'nav-links'
-    },
     {
         title: "Sign in",
         url: "/signin",
