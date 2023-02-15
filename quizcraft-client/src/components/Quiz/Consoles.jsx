@@ -76,7 +76,9 @@ export default function Consoles(props){
                 console.log("Question Set Sent to Firestore: ", questionsToFirestore);
                 const gameData = {
                     questions: questionsToFirestore,
-                    host: user.displayName
+                    host: user.displayName,
+                    currentQuestion: 0, 
+                    gameStart: false, 
                 };
                 return gameData;
             }) // send the data to Firestore
