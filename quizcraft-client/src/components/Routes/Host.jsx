@@ -1,13 +1,16 @@
 import React from "react";
 import { useParams } from "react-router-dom"
+import Quiz from '../Quiz/Quiz'
+
 
 export default function Host (props) {
     let { gameId, playerId } = useParams()
+    const gameID = gameId
 
     return (
         <div>
-            <Quiz gameId = { gameId } /> 
-            <Lobby gameId = { gameId } />
+            <Quiz a = { gameID } /> 
+            {/* <Lobby gameId = { gameId } /> */}
         </div>
     );
 }
