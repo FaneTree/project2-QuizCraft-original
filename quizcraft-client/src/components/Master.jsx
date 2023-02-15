@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import Consoles from './Consoles';
+import Consoles from './Quiz/Consoles';
 import axios from 'axios';
-import Quiz from "./Quiz";
-import Scores from "./Scores";
+import Quiz from "./Quiz/Quiz";
+import Scores from "./Quiz/Scores";
 
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "./firebase";
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
-export default function Quizmaster() {
+export default function Master() {
     // converts html code to regular characters
     function removeCharacters(question) {
         // regex aye
@@ -125,8 +125,8 @@ export default function Quizmaster() {
                     questions={ fetchedQuestions } 
                     quizComplete={ quizComplete } 
                     fetchScore={ fetchScore } 
-                    timer = { timer }
                     Countdown = { countDownTimer }
+                    timer = { timer }
                 />
             }
         </div>

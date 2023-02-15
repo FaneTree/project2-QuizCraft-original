@@ -7,6 +7,9 @@ export default function Quiz (props){
     const [score, setScore] = useState(0);
     const [scoreMessage, setScoreMessage] = useState("Enjoy your quiz!");
 
+    // define counter to countdown
+    const [counter, setCounter] = useState(props.timer);
+
     // make a copy of the question-answer set in the child
     useEffect(() => {
         setAllQuestions(props.questions);
@@ -31,6 +34,7 @@ export default function Quiz (props){
         if (currentQuestionData) {
             setChoices(shuffle([...currentQuestionData.incorrectAnswers, currentQuestionData.correctAnswer]))
         }
+        setCounter(props.timer);
     },[currentQuestionData])
 
     const updateCurrentQuestion = () => {
@@ -39,9 +43,6 @@ export default function Quiz (props){
        }
        setTimeout(()=>setCurrentQuestion(currentQuestion + 1), 2000);
    }
-
-   // define counter to countdown
-   let counter = props.timer;
 
    // function to handle the answer selected
     const _handleAnswerSelected = (answer) => {

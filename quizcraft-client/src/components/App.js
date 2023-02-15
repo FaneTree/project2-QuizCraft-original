@@ -9,7 +9,7 @@ import Signup from "./Routes/Signup";
 import Signin from "./Routes/Signin";
 import Home from "./Routes/Home";
 
-import Quizmaster from "./Quiz/Quizmaster";
+import Quizmaster from "./Master";
 import Lobby from "./Mutiplayer/Main";
 import Quiz from "./Quiz/Quiz";
 
