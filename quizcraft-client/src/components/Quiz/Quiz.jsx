@@ -1,87 +1,141 @@
-import React, {useEffect, useState} from "react";
-import { getDoc, doc } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { getDoc, doc, updateDoc } from "firebase/firestore";
 import { db, auth } from "../firebase";
-import {useAuthState} from 'react-firebase-hooks/auth';
+import { useAuthState } from "react-firebase-hooks/auth";
 
+export default function Quiz(props) {
+  const [user] = useAuthState(auth);
+  const currentUser = user.displayName;
 
-export default function Quiz (props){
-    const [user] = useAuthState(auth);
-    const gameID =props.a; 
-    console.log("current game id :", props.a);
+  const gameID = props.a;
 
-    // store the attempts made by a player and sent to the server (by _handleAnswerClick function)
-    // const playerAttempts = {
-    //     player: user.displayName,
-    //     answers:[]
-    // }
+  const [playerAttempts, setPlayerAttempts] = useState({});
 
-    const [roomData, setRoomData] = useState([]);
-    const [questionData, setQuestionData] = useState([]);
-    const [currentQuestion, setCurrentQuestion] = useState(0); // number of the current question, starting from 0
+  const [roomData, setRoomData] = useState([]);
+  const [questionData, setQuestionData] = useState([]);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
 
-    useEffect(() => {
-        getQuestions();
-    },[])
+  const currentHost = roomData.host;
 
-    useEffect(()=>{
-        console.log("room Data ==== ", roomData);
-        console.log("Question data ==== ", questionData);
-        console.log("Current question ==== ", currentQuestion);
-    },[roomData, questionData,currentQuestion])
+  useEffect(() => {
+    getQuestions();
+  }, []);
 
-    // retrieve questions from the Firestore
-    async function getQuestions(){
+  useEffect(() => {
+    console.log("room Data ==== ", roomData);
+    console.log("Question data ==== ", questionData);
+    console.log("Current question ==== ", currentQuestion);
+  }, [roomData, questionData, currentQuestion]);
 
-        const docRef = doc(db, "games",gameID.toString());
-        const docSnap = await getDoc(docRef);
+  async function getQuestions() {
+    const docRef = doc(db, "games", gameID.toString());
+    const docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-            const questions = docSnap.data().room;
-            setCurrentQuestion(questions.currentQuestion);
-            setRoomData(questions)
-            setQuestionData(questions.questions)
-            
-        } else {
-            // doc.data() will be undefined in this case
-            console.log("No such document!");
+    if (docSnap.exists()) {
+      const questions = docSnap.data().room;
+      setCurrentQuestion(questions.currentQuestion);
+      setRoomData(questions);
+      setQuestionData(questions.questions);
+    } else {
+      console.log("No such document!");
+    }
+  }
+
+  const _handleAnswerClick = (e) => {
+    const answer = e.target.value;
+    const correctAnswer = questionData[currentQuestion].correctAnswer;
+
+    // create a copy of the playerAttempts object to update it
+    const updatedPlayerAttempts = { ...playerAttempts };
+
+    if (correctAnswer === answer) {
+      updatedPlayerAttempts[currentUser] = [        ...(updatedPlayerAttempts[currentUser] || []),
+        1,
+      ];
+    } else {
+      updatedPlayerAttempts[currentUser] = [        ...(updatedPlayerAttempts[currentUser] || []),
+        0,
+      ];
+    }
+
+    setPlayerAttempts(updatedPlayerAttempts);
+
+    console.log("playerAttempts ==== ", updatedPlayerAttempts);
+  };
+
+  async function addPlayerAttemptsToFirestore() {
+    try {
+      const docRef = doc(db, "games", gameID.toString());
+      const gameDoc = await getDoc(docRef);
+
+      if (gameDoc.exists()) {
+        const gameData = gameDoc.data();
+        const gameRoom = gameData.room;
+        const playerAttemptsData = gameRoom.playerAttempts || {};
+
+        // merge the updated player attempts with the existing data
+        const updatedPlayerAttemptsData = {
+          ...playerAttemptsData,
+          ...playerAttempts,
+        };
+
+        await updateDoc(docRef, {
+          "room.playerAttempts": updatedPlayerAttemptsData,
+        });
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async function handleTimeout(timeout) {
+    await new Promise((resolve) => setTimeout(resolve, timeout));
+    const newQuestionIndex = currentQuestion + 1;
+    const docRef = doc(db, "games", gameID.toString());
+    await updateDoc(docRef, { "room.currentQuestion": newQuestionIndex });
+  }
+
+  useEffect(() => {
+    addPlayerAttemptsToFirestore();
+  }, [playerAttempts]);
+
+  useEffect(() => {
+    handleTimeout(5000); // 5 seconds timeout for testing purposes
+  }, [currentQuestion]);
+  
+  return (
+    <div>
+      <p>
+        Dear <strong>{currentUser}</strong>, Welcome to Game Room
+        <strong>{props.a}</strong>
+      </p>
+      <p>
+        The Host is <strong>{currentHost}</strong>
+      </p>
+
+      {questionData.map((question, index) => {
+        if (index === currentQuestion) {
+          return (
+            <div key={index}>
+              <p>
+                Queston #{index + 1}: {question[index].questionText}
+              </p>
+              <ol>
+                {question[index].shuffledAnswers.map((answer, index) => (
+                  <li key={index}>
+                    <button value={answer} onClick={_handleAnswerClick}>
+                      {answer}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          );
         }
-    }
-
-    // function to check if the answer clicked is correct or not
-    const _handleAnswerClick = (answer) => {
-        const correctAnswer = questionData[currentQuestion].correctAnswer;
-        // if(correctAnswer === answer){
-        //     playerAttempts.answers.push(1);
-        // } else {
-        //     playerAttempts.answers.push(0);
-        //         }
-    }
-    
-    return (
-        <div>
-            <p>
-                Welcome to Game Room <strong>{props.a}</strong>
-            </p>
-            <p>
-                The Host is <strong>{ roomData.host }</strong>
-            </p>
-
-            <p>
-                { questionData.map((question, index) => {
-                    if (index === currentQuestion) {  // Only show the current question
-                    return (
-                        <div key={index}>
-                            <p>Queston #{ index+1}: {question[index].questionText}</p>
-                            <ol>
-                                { question[index].shuffledAnswers.map((answer, index) => 
-                                <li key={index}><button value={answer} onClick={ _handleAnswerClick }>{ answer }</button></li>)}
-                            </ol>
-                        </div>
-                        
-                    )}
-                })}
-            </p>
-
-        </div>
-    )
+        return null;
+      })}
+    </div>
+  );
 }
