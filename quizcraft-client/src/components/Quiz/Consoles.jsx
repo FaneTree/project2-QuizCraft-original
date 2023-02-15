@@ -90,6 +90,7 @@ export default function Consoles(props){
             .catch(error => {
                 console.error(error);
             });
+ 
     };
 
     const handleCategoryChange = (selectedItems) => {
@@ -106,7 +107,7 @@ export default function Consoles(props){
     const handleSubmit = (e) => {
         e.preventDefault();
         fetchQuestions({ questionCount, category, difficulty, timerSet });
-        navigate(redirectUrl);
+        setTimeout(navigate(redirectUrl),4000); 
     }
 
     return(

@@ -1,51 +1,87 @@
 import React, {useEffect, useState} from "react";
 import { getDoc, doc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, auth } from "../firebase";
+import {useAuthState} from 'react-firebase-hooks/auth';
 
 
 export default function Quiz (props){
-    console.log(props.a);
+    const [user] = useAuthState(auth);
+    const gameID =props.a; 
+    console.log("current game id :", props.a);
 
-    const [questions, setQuestions] = useState([]);
+    // store the attempts made by a player and sent to the server (by _handleAnswerClick function)
+    // const playerAttempts = {
+    //     player: user.displayName,
+    //     answers:[]
+    // }
+
+    const [roomData, setRoomData] = useState([]);
+    const [questionData, setQuestionData] = useState([]);
+    const [currentQuestion, setCurrentQuestion] = useState(0); // number of the current question, starting from 0
 
     useEffect(() => {
         getQuestions();
     },[])
 
-    // retrieve questions from the Firestore
-    async function getQuestions(gameID){
+    useEffect(()=>{
+        console.log("room Data ==== ", roomData);
+        console.log("Question data ==== ", questionData);
+        console.log("Current question ==== ", currentQuestion);
+    },[roomData, questionData,currentQuestion])
 
-        const docRef = doc(db, "games",props.a);
+    // retrieve questions from the Firestore
+    async function getQuestions(){
+
+        const docRef = doc(db, "games",gameID.toString());
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
             const questions = docSnap.data().room;
-            setQuestions(questions)
-            console.log("question data ======= ", questions);
+            setCurrentQuestion(questions.currentQuestion);
+            setRoomData(questions)
+            setQuestionData(questions.questions)
+            
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
         }
-
-        
     }
+
+    // function to check if the answer clicked is correct or not
+    const _handleAnswerClick = (answer) => {
+        const correctAnswer = questionData[currentQuestion].correctAnswer;
+        // if(correctAnswer === answer){
+        //     playerAttempts.answers.push(1);
+        // } else {
+        //     playerAttempts.answers.push(0);
+        //         }
+    }
+    
     return (
         <div>
             <p>
                 Welcome to Game Room <strong>{props.a}</strong>
             </p>
             <p>
-                The Host is <strong>{ questions.host }</strong>
+                The Host is <strong>{ roomData.host }</strong>
             </p>
-            <div>
-                { questions.questions.map((question, index) => {
+
+            <p>
+                { questionData.map((question, index) => {
+                    if (index === currentQuestion) {  // Only show the current question
                     return (
                         <div key={index}>
-                            <p>{question[index].questionText}</p>
+                            <p>Queston #{ index+1}: {question[index].questionText}</p>
+                            <ol>
+                                { question[index].shuffledAnswers.map((answer, index) => 
+                                <li key={index}><button value={answer} onClick={ _handleAnswerClick }>{ answer }</button></li>)}
+                            </ol>
                         </div>
-                    )
+                        
+                    )}
                 })}
-            </div>
+            </p>
+
         </div>
     )
 }
