@@ -104,7 +104,6 @@ export default function Consoles(props){
     const handleSubmit = (e) => {
         e.preventDefault();
         fetchQuestions({ questionCount, category, difficulty, timerSet });
-
         navigate(redirectUrl);
     }
 
