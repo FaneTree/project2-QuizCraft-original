@@ -100,7 +100,6 @@ export default function Consoles(props){
         setDifficulty(difficultyId);
     }
 
-
     const handleSubmit = (e) => {
         e.preventDefault();
         fetchQuestions({ questionCount, category, difficulty, timerSet });
