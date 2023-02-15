@@ -13,7 +13,7 @@ export default function Signin () {
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
-            console.log("google account user info ---- ", user.displayName)
+            // console.log("google account user info ---- ", user.displayName)
         }).catch((error) => {
         // Handle Errors here.
         const errorCode = error.code;

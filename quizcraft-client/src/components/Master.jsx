@@ -3,13 +3,32 @@ import Consoles from './Quiz/Consoles';
 import axios from 'axios';
 import Quiz from "./Quiz/Quiz";
 import Scores from "./Quiz/Scores";
-
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
 export default function Master() {
+
+    // Firebase User Management ///////////////
+
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+            const uid = user.uid;
+            console.log("Master - current user :", uid, user.displayName);
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
+
+
     // trivia API //////////////////
     // Category:
     const [categories, setCategories] = useState([]);
@@ -102,7 +121,7 @@ export default function Master() {
         // console.log("!!!!$$$$", scoreMessage)
     }
 
-    // function to check if a set of quiz is completed 
+    // function to check if a set of quiz is completed
     const [consoleVisble,setConsoleVisble] = useState(true);
     const quizComplete = ()=>{
         setConsoleVisble(true);
