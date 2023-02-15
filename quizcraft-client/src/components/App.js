@@ -5,7 +5,6 @@ import "../App.scss";
 
 import NavBar from "./NavBar";
 
-import Signup from "./Routes/Signup";
 import Signin from "./Routes/Signin";
 import Home from "./Routes/Home";
 
@@ -28,7 +27,6 @@ function App() {
         <Routes>
           {/* reguar path */}
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/signup" element={<Signup />} />
           <Route exact path="/signin" element={<Signin />} />
 
           {/* waiting room and create path */}
