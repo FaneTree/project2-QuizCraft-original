@@ -19,11 +19,6 @@ export const MenuData = [
 
 export const MenuDataLogin = [
     {
-        title: "Sign up",
-        url: "/signup",
-        className: 'nav-links'
-    },
-    {
         title: "Sign in",
         url: "/signin",
         className: 'nav-links'
