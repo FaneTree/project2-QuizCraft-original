@@ -7,6 +7,7 @@ import NavBar from "./NavBar";
 
 import Signin from "./Routes/Signin";
 import Home from "./Routes/Home";
+import Listgames from "./Quiz/Listgames";
 
 import Master from "./Master";
 import Lobby from "./Mutiplayer/Main";
@@ -20,6 +21,8 @@ import FinalResult from "./Routes/FinalResult";
 import Test from "./Routes/Test";
 
 function App() {
+
+
   return (
     <div className="App">
       <NavBar />
@@ -27,7 +30,8 @@ function App() {
         <Routes>
           {/* reguar path */}
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/signin" element={<Signin />} />
+          <Route exact path="/signin" element={<Signin  />} />
+          <Route exact path="/listgames" element={<Listgames />} />
 
           {/* waiting room and create path */}
           <Route exact path="/games/create" element={<Master />} />

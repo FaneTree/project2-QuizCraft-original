@@ -1,7 +1,12 @@
+import React,{ useState } from 'react'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import {addDoc, collection} from "firebase/firestore";
+import {db} from "../firebase";
+
 const provider = new GoogleAuthProvider();
 
-export default function Signin () {
+export default function Signin (props) {
+
     function _handleSignIn (){
     const auth = getAuth();
     signInWithPopup(auth, provider)
@@ -13,18 +18,19 @@ export default function Signin () {
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
-            // console.log("google account user info ---- ", user.displayName)
-        }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log("google account user info ---- ", user.displayName, user.email)
+            // add the user information to the users collection in the Firestore
+            const usersCollectionRef = collection(db,'users')
+            addDoc(usersCollectionRef,{
+                displayName: user.displayName,
+                email: user.email,
+                uid: user.uid
+            })
+
+        }).catch((error) => console.log(error.message))
         // ...
-    });
     }
+
     return (
         <div>
             <h1>Sign in with Google Account</h1>

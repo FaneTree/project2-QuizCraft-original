@@ -30,7 +30,7 @@ const NavBar = () => {
                         </li>
                     );
                 })}
-                { user ? <li onClick={_logout}><a>Logout</a></li> : MenuDataLogin.map((item,index) => {
+                { user ? <li onClick={_logout}><a>{ user.displayName } Logout</a></li> : MenuDataLogin.map((item,index) => {
                         return (
                             <li key = {index}>
                                 <Link to = {item.url}>

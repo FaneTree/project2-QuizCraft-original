@@ -1,8 +1,10 @@
 import React from "react";
 
-export default function Host () {
-    console.log("Host");
+export default function Host (props) {
+
     return (
-        "something is coming"
+        <div>
+            Host is coming
+        </div>
     );
 }

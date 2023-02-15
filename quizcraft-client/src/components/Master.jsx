@@ -6,28 +6,23 @@ import Scores from "./Quiz/Scores";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
+import Signin from "./Routes/Signin";
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
 export default function Master() {
 
-    // Firebase User Management ///////////////
 
+    // Child component: Signin //////////////////////
+    // function to retrive the user data from SignIn
+    const [currentUser, setCurrentUser] = useState(null);
+    const fetchUser = ( currentUser ) => {
+        setCurrentUser( currentUser )
+    }
 
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/firebase.User
-            const uid = user.uid;
-            console.log("Master - current user :", uid, user.displayName);
-            // ...
-        } else {
-            // User is signed out
-            // ...
-        }
-    });
-
+    useEffect(()=>{
+        console.log('current user:', currentUser)
+    },[currentUser])
 
     // trivia API //////////////////
     // Category:
@@ -56,7 +51,15 @@ export default function Master() {
         return question.replace(/(&quot\;)/g, "\"").replace(/(&rsquo\;)/g, "\"").replace(/(&#039\;)/g, "\'").replace(/(&amp\;)/g, "\"");
     }
     // TODO: a variable to create a 'game' path which can be later used an identifier
-    let new_path = '009';
+    let new_path = '111';
+    // function to shuffle the answer array before being pushed to Firestore
+    const shuffle = (array) => {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    };
 
     // Function: 1) receive API data and store them in different States; 2) pass the data to Firestore
     const fetchQuestions = ({ questionCount, category, difficulty, timerSet }) => {
@@ -81,12 +84,13 @@ export default function Master() {
                             questionText: removeCharacters(result.question),
                             correct: result.correct_answer,
                             incorrect: result.incorrect_answers,
+                            shuffledAnswers: shuffle([...result.incorrect_answers, result.correct_answer])
                         }
                     };
                 });
                 console.log("FIRESTORE :", questionsToFirestore);
                 return questionsToFirestore;
-            })
+            }) // send the data to Firestore
             .then((questionsToFirestore) => {
                 const docRef = doc(db, "games", new_path);
                 setDoc(docRef, { questions: questionsToFirestore });
@@ -133,28 +137,30 @@ export default function Master() {
             <h1>Quiz Master Board - Parent Component </h1>
 
             {!consoleVisble &&
-                <Scores 
-                    currentScore={score} 
-                    currentMessage={messages} 
+                <Scores
+                    currentScore={score}
+                    currentMessage={messages}
                 />}
 
-            { consoleVisble && 
+            { consoleVisble &&
                 <Consoles
-                    categories={categories} 
+                    categories={categories}
                     difficulties={difficulties}
-                    onSubmit={fetchQuestions} 
+                    onSubmit={fetchQuestions}
                 />
             }
 
             { !consoleVisble &&
-                <Quiz 
-                    questions={ fetchedQuestions } 
-                    quizComplete={ quizComplete } 
-                    fetchScore={ fetchScore } 
+                <Quiz
+                    questions={ fetchedQuestions }
+                    quizComplete={ quizComplete }
+                    fetchScore={ fetchScore }
                     Countdown = { countDownTimer }
                     timer = { timer }
                 />
             }
+
+            <Signin fetchUser={fetchUser} a={"hotdog"}/>
         </div>
     );
 }
