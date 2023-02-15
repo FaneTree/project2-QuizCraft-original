@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from "react";
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
-import { useParams } from "react-router-dom"
 
 
 export default function Quiz (props){
-    let { gameId, playerId } = useParams()
-    console.log("Game ID: ", props)
+    console.log(props);
 
     const [questions, setQuestions] = useState([]);
 

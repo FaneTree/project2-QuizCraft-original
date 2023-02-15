@@ -9,8 +9,9 @@ export default function Host (props) {
 
     return (
         <div>
+            {gameID}
+            {playerId}
             <Quiz a = { gameID } /> 
-            {/* <Lobby gameId = { gameId } /> */}
         </div>
     );
 }
