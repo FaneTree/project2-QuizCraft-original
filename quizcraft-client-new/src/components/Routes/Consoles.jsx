@@ -9,7 +9,7 @@ import {useAuthState} from 'react-firebase-hooks/auth';
 
 const CATEGORIES_URL = "https://opentdb.com/api_category.php";
 
-export default function Consoles(props){
+export default function Consoles(){
     const navigate = useNavigate();
     // trivia API //////////////////
     // Category:
@@ -78,8 +78,8 @@ export default function Consoles(props){
                     questions: questionsToFirestore,
                     host: user.displayName,
                     currentQuestion: 0, 
-                    gameStart: false, 
-                    questionTimeLimt: 10,
+                    gameStart: false,
+                    timer: timerSet
                 };
                 return gameData;
             }) // send the data to Firestore
