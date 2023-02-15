@@ -33,7 +33,7 @@ function App() {
 
           {/* waiting room and create path */}
           <Route exact path="/games/create" element={<Quizmaster />} />
-          <Route exact path="/lobby/:gameId" element={<Lobby />} />
+          <Route exact path="/lobby" element={<Lobby />} />
           <Route exact path="/quiz" element={<Quiz />} />
 
           {/* during play game by player */}
