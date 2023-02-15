@@ -4,7 +4,7 @@ import { db } from "../firebase";
 
 
 export default function Quiz (props){
-    console.log(props);
+    console.log(props.a);
 
     const [questions, setQuestions] = useState([]);
 
@@ -15,29 +15,37 @@ export default function Quiz (props){
     // retrieve questions from the Firestore
     async function getQuestions(gameID){
 
-        const docRef = doc(db, "games",gameID);
+        const docRef = doc(db, "games",props.a);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-            console.log("Document data:", docSnap.data());
+            const questions = docSnap.data().room;
+            setQuestions(questions)
+            console.log("question data ======= ", questions);
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");
         }
 
-        // getDocs(doc(db, "games", "704382")).then(response=>{
-        //     console.log('response', response);
-            // const questions = response.docs.map(doc => ({
-            //     id: doc.id,
-            //   ...doc.data()
-            // }))
-            // console.log("questions passed to the state: ", questions)
-            // setQuestions(questions)
-        // }).catch(error=> console.log(error.message))
+        
     }
     return (
         <div>
-            Quiz is coming
+            <p>
+                Welcome to Game Room <strong>{props.a}</strong>
+            </p>
+            <p>
+                The Host is <strong>{ questions.host }</strong>
+            </p>
+            <div>
+                { questions.questions.map((question, index) => {
+                    return (
+                        <div key={index}>
+                            <p>{question[index].questionText}</p>
+                        </div>
+                    )
+                })}
+            </div>
         </div>
     )
 }

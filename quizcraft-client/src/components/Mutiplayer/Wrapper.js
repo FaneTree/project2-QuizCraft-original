@@ -1,7 +1,7 @@
-import { auth } from "../firebase";
+import { db, auth, usersRef } from "../firebase";
 import { signOut } from "firebase/auth";
 import Cookies from "universal-cookie";
-
+import { where, query, deleteDoc, getDocs } from "firebase/firestore";
 const cookies = new Cookies();
 
 export const Wrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
@@ -10,6 +10,18 @@ export const Wrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
     cookies.remove("auth-token");
     setIsAuth(false);
     setIsInChat(false);
+  };
+
+  const removeUser = async () => {
+    console.log("removing user");
+    const q = query(
+      usersRef,
+      where("user", "==", auth.currentUser.displayName)
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(function (doc) {
+      deleteDoc(doc.ref);
+    });
   };
 
   return (
@@ -21,7 +33,14 @@ export const Wrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
       <div className="app-container">{children}</div>
       {isAuth && (
         <div className="sign-out">
-          <button onClick={signUserOut}> Sign Out</button>
+          <button
+            onClick={() => {
+              signUserOut();
+              removeUser();
+            }}
+          >
+            Sign Out
+          </button>
         </div>
       )}
     </div>
