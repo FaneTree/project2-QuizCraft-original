@@ -74,11 +74,15 @@ export default function Consoles(props){
                     };
                 });
                 console.log("Question Set Sent to Firestore: ", questionsToFirestore);
-                return questionsToFirestore;
+                const gameData = {
+                    questions: questionsToFirestore,
+                    host: user.displayName
+                };
+                return gameData;
             }) // send the data to Firestore
-            .then((questionsToFirestore) => {
+            .then((gameData) => {
                 const docRef = doc(db, "games", new_path);
-                setDoc (docRef, {questions: questionsToFirestore });
+                setDoc (docRef, {room: gameData });
                 // addDoc (docRef,  {host:user.displayName})
             })
             .catch(error => {
@@ -101,7 +105,7 @@ export default function Consoles(props){
         e.preventDefault();
         fetchQuestions({ questionCount, category, difficulty, timerSet });
 
-        // navigate('/listgames');
+        navigate(redirectUrl);
     }
 
     return(
