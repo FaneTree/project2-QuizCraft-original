@@ -10,7 +10,6 @@ export default function Quiz(props) {
   const gameID = props.a;
 
   const [playerAttempts, setPlayerAttempts] = useState({});
-
   const [roomData, setRoomData] = useState([]);
   const [questionData, setQuestionData] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -21,11 +20,11 @@ export default function Quiz(props) {
     getQuestions();
   }, []);
 
-  useEffect(() => {
-    console.log("room Data ==== ", roomData);
-    console.log("Question data ==== ", questionData);
-    console.log("Current question ==== ", currentQuestion);
-  }, [roomData, questionData, currentQuestion]);
+//   useEffect(() => {
+//     console.log("room Data ==== ", roomData);
+//     console.log("Question data ==== ", questionData);
+//     console.log("Current question ==== ", currentQuestion);
+//   }, [roomData, questionData, currentQuestion]);
 
   async function getQuestions() {
     const docRef = doc(db, "games", gameID.toString());
@@ -90,21 +89,28 @@ export default function Quiz(props) {
     }
   }
 
-  async function handleTimeout(timeout) {
-    await new Promise((resolve) => setTimeout(resolve, timeout));
-    const newQuestionIndex = currentQuestion + 1;
-    const docRef = doc(db, "games", gameID.toString());
-    await updateDoc(docRef, { "room.currentQuestion": newQuestionIndex });
-  }
-
   useEffect(() => {
     addPlayerAttemptsToFirestore();
   }, [playerAttempts]);
 
   useEffect(() => {
-    handleTimeout(5000); // 5 seconds timeout for testing purposes
-  }, [currentQuestion]);
-  
+    const questionTimer = setTimeout(() => {
+      const updatedCurrentQuestion = currentQuestion + 1;
+
+      const docRef = doc(db, "games", gameID.toString());
+
+      updateDoc(docRef, {
+        "room.currentQuestion": updatedCurrentQuestion
+      }).then(() => {
+        setCurrentQuestion(updatedCurrentQuestion);
+      }).catch((error) => {
+        console.error(error);
+      });
+    }, roomData.questionTimeLimit * 1000);
+
+    return () => clearTimeout(questionTimer);
+  }, [currentQuestion, roomData.questionTimeLimit, gameID]);
+
   return (
     <div>
       <p>
