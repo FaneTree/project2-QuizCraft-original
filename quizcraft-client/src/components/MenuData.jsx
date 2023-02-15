@@ -6,7 +6,7 @@ export const MenuData = [
     },
     {
         title: "Create",
-        url: "/create",
+        url: "/games/create",
         className: 'nav-links'
     },
     {
