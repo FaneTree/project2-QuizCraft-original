@@ -46,6 +46,9 @@ export default function Consoles(props){
     // this user will be pushed into the same document and set as 'Host'
     const [user] = useAuthState(auth);
 
+    // this redirect url generate from new_path and user_id
+    const redirectUrl = `/host/${ new_path }/as/${ user.uid }`
+
     // function to shuffle the answer array before being pushed to Firestore
     const shuffle = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
@@ -71,11 +74,15 @@ export default function Consoles(props){
                     };
                 });
                 console.log("Question Set Sent to Firestore: ", questionsToFirestore);
-                return questionsToFirestore;
+                const gameData = {
+                    questions: questionsToFirestore,
+                    host: user.displayName
+                };
+                return gameData;
             }) // send the data to Firestore
-            .then((questionsToFirestore) => {
+            .then((gameData) => {
                 const docRef = doc(db, "games", new_path);
-                setDoc (docRef, {questions: questionsToFirestore });
+                setDoc (docRef, {room: gameData });
                 // addDoc (docRef,  {host:user.displayName})
             })
             .catch(error => {
@@ -98,7 +105,7 @@ export default function Consoles(props){
         e.preventDefault();
         fetchQuestions({ questionCount, category, difficulty, timerSet });
 
-        // navigate('/listgames');
+        navigate(redirectUrl);
     }
 
     return(

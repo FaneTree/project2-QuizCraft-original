@@ -7,9 +7,6 @@ export default function Player () {
 
     return (
         <h1>Player</h1>
-<<<<<<< HEAD
-=======
 
->>>>>>> 68dd6a6aa5100f52713323c3bcd999edafd4b47b
     );
 }
