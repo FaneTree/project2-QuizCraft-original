@@ -79,6 +79,7 @@ export default function Consoles(props){
                     host: user.displayName,
                     currentQuestion: 0, 
                     gameStart: false, 
+                    questionTimeLimt: 10,
                 };
                 return gameData;
             }) // send the data to Firestore
