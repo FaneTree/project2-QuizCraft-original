@@ -16,12 +16,17 @@ const NavBar = () => {
         cookies.remove("auth-token");
       };
 
+const  changeBodyStyle = () =>  {
+    document.body.classList.toggle("style1")
+    document.body.classList.toggle("style2")
+}
     return(
         <nav className = 'nav'>
-            <div>
-                <img 
+            <div className='logo'>
+                <img className='logo'
                     src="https://i.ibb.co/Hhhjqwr/Quizcraft-3.png" alt="cauldron-800-300-px" 
                     width="200" 
+                onClick={changeBodyStyle}
                 />
                 {/* <h1>QuizCraft</h1> */}
             </div>

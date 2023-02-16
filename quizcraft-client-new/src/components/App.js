@@ -1,5 +1,5 @@
 // import Users from './User/Users';
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import "../App.scss";
 
@@ -19,6 +19,18 @@ import ChatRoom from "./Mutiplayer/Main";
 import FinalResult from "./Routes/FinalResult";
 
 function App() {
+  const [bodyStyle, setBodyStyle] = useState("style1");
+
+  const handleClick = () => {
+    // rotate through the different body styles
+    if (bodyStyle === "style1") {
+      setBodyStyle("style2");
+    } else if (bodyStyle === "style2") {
+      setBodyStyle("style3");
+    } else {
+      setBodyStyle("style1");
+    }
+  };
   return (
     <div className="App">
       <NavBar />
