@@ -12,6 +12,8 @@ export default function Join () {
 
     // form to fill room number => record player into room => redirect to room
     const _recordAndNavigatePlayer = () => {
+        console.log('JOIN USER', user.uid )
+
         navigate(joinRoomURL)
     }
     
