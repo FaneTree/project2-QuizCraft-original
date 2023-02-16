@@ -11,10 +11,13 @@ export const MenuData = [
     },
     {
         title: "Chat",
+<<<<<<< HEAD
         url: "/chat",
+=======
+        url: "/chatroom",
+>>>>>>> c65d7f535d5b209d6736feea839060d9ad9eb3c1
         className: 'nav-links'
     }
-
 ]
 
 export const MenuDataLogin = [

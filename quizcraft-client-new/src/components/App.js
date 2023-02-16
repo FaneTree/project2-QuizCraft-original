@@ -16,6 +16,7 @@ import Player from "./Routes/Player";
 import Host from "./Routes/Host";
 
 import Challenges from "./Routes/Challenges";
+import ChatRoom from "./Mutiplayer/Main";
 
 import FinalResult from "./Routes/FinalResult";
 
@@ -36,8 +37,9 @@ function App() {
           <Route exact path="/host/:gameId/as/:playerId" element={<Host />} />
           <Route exact path="/chat" element={<Chat />} />
 
-          {/* for single player */}
+          {/* for single player and chat feature */}
           <Route exact path="/single" element={<Challenges />} />
+          <Route exact path="/chatroom" element={<ChatRoom />} />
 
           {/* after the game finished */}
           <Route exact path="/scoreboard/:gameId" element={<FinalResult />} />

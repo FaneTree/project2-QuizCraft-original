@@ -1,111 +1,94 @@
 import React, { useEffect, useState } from "react";
-import { getDoc, doc, updateDoc } from "firebase/firestore";
+import {getDoc, doc, updateDoc, onSnapshot} from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Quiz(props) {
+  const gameID = props.a;
+  // reference to the specific document in the games collection
+  const gamesDocRef = doc(db, "games", gameID.toString());
+
   const [user] = useAuthState(auth);
   const currentUser = user.displayName;
-
-  const gameID = props.a;
-
-  const [playerAttempts, setPlayerAttempts] = useState({});
 
   const [roomData, setRoomData] = useState([]);
   const [questionData, setQuestionData] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
 
+  const attempts = {[currentUser]:[]} // to record the score of a question and send it to firestore
+
   const currentHost = roomData.host;
 
+  // onSnapshot to fetch roomData
   useEffect(() => {
-    getQuestions();
+   const unsubRoomData = onSnapshot(gamesDocRef,
+       snapShot => {
+          setRoomData(snapShot.data().room);
+        });
+    return () => unsubRoomData();
   }, []);
 
+  // onSnapshot to fetch questionData
+  useEffect(()=>{
+      const unsubQuestionData = onSnapshot(gamesDocRef,
+          snapshot =>
+              setQuestionData(snapshot.data().room.questions)
+          );
+      return () => unsubQuestionData();
+  },[])
+
+  // onSnapshot to look for the change of currentQuestion number
+    useEffect(
+        ()=>{
+            const unsubCurrentQuestion = onSnapshot(gamesDocRef,
+                snapshot =>
+            setCurrentQuestion(snapshot.data().room.currentQuestion)
+            );
+            return () => unsubCurrentQuestion();
+        },[currentQuestion])
+
+
+  // TODO: remove it later : checking purpose only
   useEffect(() => {
     console.log("room Data ==== ", roomData);
     console.log("Question data ==== ", questionData);
     console.log("Current question ==== ", currentQuestion);
-  }, [roomData, questionData, currentQuestion]);
+    console.log("Current host ==== ", currentHost);
+    console.log("Current user ==== ", currentUser);
+  }, [roomData, questionData, currentQuestion, currentHost,currentUser]);
 
-  async function getQuestions() {
-    const docRef = doc(db, "games", gameID.toString());
-    const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      const questions = docSnap.data().room;
-      setCurrentQuestion(questions.currentQuestion);
-      setRoomData(questions);
-      setQuestionData(questions.questions);
-    } else {
-      console.log("No such document!");
-    }
+  const scoreCalculate = (flag)=>{
+      return flag? 1:0;
   }
+
+  // function to push the new player attempt to the database
 
   const _handleAnswerClick = (e) => {
-    const answer = e.target.value;
-    const correctAnswer = questionData[currentQuestion].correctAnswer;
+      const answer = e.target.value;
+      // just be careful, I don't know why the dat structure is nested in this way after migration
+      const correctAnswer = questionData[currentQuestion][currentQuestion].correct;
+      console.log("you answer === ", answer, "& correct answer === ", correctAnswer);
 
-    // create a copy of the playerAttempts object to update it
-    const updatedPlayerAttempts = { ...playerAttempts };
+      // check if the answer clicked is correct or not
+      const flag = answer === correctAnswer ? true : false;
+      const score = scoreCalculate(flag);
+      console.log("flag ==== ", flag, "score ==== ", score);
 
-    if (correctAnswer === answer) {
-      updatedPlayerAttempts[currentUser] = [        ...(updatedPlayerAttempts[currentUser] || []),
-        1,
-      ];
-    } else {
-      updatedPlayerAttempts[currentUser] = [        ...(updatedPlayerAttempts[currentUser] || []),
-        0,
-      ];
-    }
+      attempts[currentUser][currentQuestion] = score
+      console.log("attempt ==== ", attempts);
 
-    setPlayerAttempts(updatedPlayerAttempts);
-
-    console.log("playerAttempts ==== ", updatedPlayerAttempts);
-  };
-
-  async function addPlayerAttemptsToFirestore() {
-    try {
-      const docRef = doc(db, "games", gameID.toString());
-      const gameDoc = await getDoc(docRef);
-
-      if (gameDoc.exists()) {
-        const gameData = gameDoc.data();
-        const gameRoom = gameData.room;
-        const playerAttemptsData = gameRoom.playerAttempts || {};
-
-        // merge the updated player attempts with the existing data
-        const updatedPlayerAttemptsData = {
-          ...playerAttemptsData,
-          ...playerAttempts,
-        };
-
-        await updateDoc(docRef, {
-          "room.playerAttempts": updatedPlayerAttemptsData,
-        });
-      } else {
-        console.log("No such document!");
-      }
-    } catch (error) {
-      console.error(error);
-    }
+      // push the attempts data to the firestore
+      updateDoc(doc(db, "games", gameID.toString()), {
+          room: {
+              ...roomData,
+              attempts: attempts
+          }
+      }).catch(error => console.log(error.message))
   }
 
-  async function handleTimeout(timeout) {
-    await new Promise((resolve) => setTimeout(resolve, timeout));
-    const newQuestionIndex = currentQuestion + 1;
-    const docRef = doc(db, "games", gameID.toString());
-    await updateDoc(docRef, { "room.currentQuestion": newQuestionIndex });
-  }
-
-  useEffect(() => {
-    addPlayerAttemptsToFirestore();
-  }, [playerAttempts]);
-
-  useEffect(() => {
-    handleTimeout(5000); // 5 seconds timeout for testing purposes
-  }, [currentQuestion]);
-  
   return (
+<<<<<<< HEAD
     <div className="midtag">
       <p>
         Dear <strong>{currentUser}</strong>, Welcome to Game Room
@@ -114,28 +97,39 @@ export default function Quiz(props) {
       <p>
         The Host is <strong>{currentHost}</strong>
       </p>
+=======
+      <div>
+        <p>
+          Dear <strong>{currentUser}</strong>, Welcome to Game Room
+          <strong>{props.a}</strong>
+        </p>
+        <p>
+          The Host is <strong>{currentHost}</strong>
+        </p>
+>>>>>>> c65d7f535d5b209d6736feea839060d9ad9eb3c1
 
-      {questionData.map((question, index) => {
-        if (index === currentQuestion) {
-          return (
-            <div key={index}>
-              <p>
-                Queston #{index + 1}: {question[index].questionText}
-              </p>
-              <ol>
-                {question[index].shuffledAnswers.map((answer, index) => (
-                  <li key={index}>
-                    <button value={answer} onClick={_handleAnswerClick}>
-                      {answer}
-                    </button>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          );
-        }
-        return null;
-      })}
-    </div>
+        {questionData.map((question, index) => {
+          if (index === currentQuestion) {
+            return (
+                <div key={index}>
+                  <p>
+                    Queston #{index + 1}: {question[index].questionText}
+                  </p>
+                    <p>{ question[currentQuestion].correct }</p>
+                  <ol>
+                    {question[index].shuffledAnswers.map((answer, index) => (
+                        <li key={index}>
+                          <button value={answer} onClick={_handleAnswerClick}>
+                            {answer}
+                          </button>
+                        </li>
+                    ))}
+                  </ol>
+                </div>
+            );
+          }
+          return null;
+        })}
+      </div>
   );
 }
