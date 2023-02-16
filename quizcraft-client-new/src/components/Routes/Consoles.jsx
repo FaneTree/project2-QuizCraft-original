@@ -78,7 +78,7 @@ export default function Consoles(){
                     questions: questionsToFirestore,
                     host: user.displayName,
                     currentQuestion: 0, 
-                    gameStart: false,
+                    gameEnd: false,
                     timer: timerSet
                 };
                 return gameData;
@@ -126,11 +126,19 @@ export default function Consoles(){
                     Difficulty:
                     <Select options={difficulties} labelField='name' valueField='id' onChange={handleDifficultyChange} className="whitehover" />
                 </section>
+{/* <<<<<<< HEAD
                 <section className="midtag">
                     Timer in seconds: 
                     <input type="number" name="timerCount" value={timerSet} onChange={(e) => setTimerset(e.target.value)} min="10" max="60" style={{ fontSize: '25px' }}/>
                 </section>
-                <section className="midtag">
+                <section className="midtag"> */}
+
+                {/* <section>
+                    Timer in seconds: 
+                    <input type="number" name="timerCount" value={timerSet} onChange={(e) => setTimerset(e.target.value)} min="10" max="60" style={{ fontSize: '25px' }}/>
+                </section> */}
+                <section>
+
                 <input type="submit" value="Submit" class="transparent-button"/>
                 </section>
             </form>

@@ -30,6 +30,7 @@ export default function Join () {
         const playerData = {
             "room.players" : arrayUnion({username})
         };
+        console.log('Player Data is',playerData);
         updateDoc (docRef, playerData );
         navigate(joinRoomURL);
     }
