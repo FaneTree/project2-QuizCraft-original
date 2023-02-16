@@ -12,7 +12,7 @@ export default function WaitingRoom(props){
             console.log(playersList);
         });
     }, []);
-
+    
     return (
         <div>
             <p>Players in room : { gameID } </p> 
