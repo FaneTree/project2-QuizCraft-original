@@ -65,14 +65,18 @@
 
 .transparent-button {
   background-color: transparent;
-  height: 30px;
-  width: 100px;
-  font-size: 20px;
+  height: 40px;
+  width: 140px;
+  font-size: 30px;
+  border: 2px solid white;
+  border-radius: 8px;
+  color: white;
 }
 
 .transparent-button:hover {
   cursor: pointer;
   color: black;
+  border: 2px solid black;
 }
 
 .midtext {
@@ -81,5 +85,9 @@
 
 .midtag {
   text-align: center;
-  margin: 0.8em 0;
+  margin: 0.9em 0;
+}
+
+.whitehover:hover {
+  background-color: white;
 }

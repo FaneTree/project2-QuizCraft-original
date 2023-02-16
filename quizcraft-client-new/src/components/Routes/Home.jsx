@@ -40,15 +40,22 @@ export default function Home (){
     return (
         <div>
             { user ? 
-                <div className="auth">
-                    
-                    <button onClick= { _navigateCreate } >Create</button>
-
-                    <Join />
-                    
-                    <p>{ user.displayName }</p>
-                    <button onClick={ _signUserOut}>Sign out</button>
-
+                <div className="auth lobbytag">
+                    <div className="auth lobbytag">
+                    <div>
+                    <button onClick= { _navigateCreate } className="enterbutton" style={{ fontSize: '30px' }} >Create Lobby</button>
+                    </div>
+                    <div className="joinbutotn two">
+                    <input
+                    placeholder="Game ID"
+                    onChange={(event) => setJoinId(event.currentTarget.value)}
+                    style={{ height: '50px', fontSize: '30px' }}
+                    />
+                    <button onClick= { _recordAndNavigatePlayer } style={{ fontSize: '30px' }}>Join Lobby</button>
+                    </div>
+                </div>
+                    {/* <p>{ user.displayName }</p> */}
+                    {/* <button onClick={ _signUserOut}>Sign out</button> */}
                 </div>
                 : 
                 <Signin /> 

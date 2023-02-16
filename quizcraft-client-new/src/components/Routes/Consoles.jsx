@@ -112,25 +112,25 @@ export default function Consoles(){
 
     return(
         <div className='midtext'>
-            <h3>Quiz Consoles</h3>
+            <h3 className="midtag">Quiz Consoles</h3>
             <form onSubmit={handleSubmit}>
-                <section>
+                <section className="midtag">
                     Number of questions: 
                     <input type="number" name="questionCount" value={questionCount} onChange={(e) => setQuestionCount(e.target.value)} min="1" max="15" style={{ fontSize: '25px' }}/>
                 </section>
-                <section>
+                <section className="midtag">
                     Category:
-                    <Select options={categories} labelField='name' valueField='id' onChange={handleCategoryChange} />
-                </section>
-                <section>
+                    <Select options={categories} labelField='name' valueField='id' onChange={handleCategoryChange} className="whitehover" />
+                </section >
+                <section className="midtag">
                     Difficulty:
-                    <Select options={difficulties} labelField='name' valueField='id' onChange={handleDifficultyChange} />
+                    <Select options={difficulties} labelField='name' valueField='id' onChange={handleDifficultyChange} className="whitehover" />
                 </section>
-                <section>
+                <section className="midtag">
                     Timer in seconds: 
                     <input type="number" name="timerCount" value={timerSet} onChange={(e) => setTimerset(e.target.value)} min="10" max="60" style={{ fontSize: '25px' }}/>
                 </section>
-                <section>
+                <section className="midtag">
                 <input type="submit" value="Submit" class="transparent-button"/>
                 </section>
             </form>
