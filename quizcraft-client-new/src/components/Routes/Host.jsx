@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from "../firebase";
 
@@ -9,6 +9,7 @@ import WaitingRoom from "../component/WaitingRoom";
 
 
 export default function Host () {
+    const navigate = useNavigate();
     const [showQuiz, setShowQuiz] = useState(false);
     const [gameStatus, setGameStatus] = useState(false);
     const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -52,7 +53,7 @@ export default function Host () {
     },[currentQuestion])
 
     const _handleClick = ()=>{
-        if (currentQuestion < (roomData.questions.length - 1)) {
+        if (currentQuestion < (roomData.questions.length - 1 )) {
             setCurrentQuestion(currentQuestion + 1);
 
             // update the currentQuestion number in the firestore
@@ -63,7 +64,8 @@ export default function Host () {
                 }
             })
         }else{
-            alert("STOP! No more question la! Go get some sleep ok?")
+            console.log("Game Over, Moving to Final Results");
+            navigate(`/scoreboard/${gameID}`)
         }
     }
     

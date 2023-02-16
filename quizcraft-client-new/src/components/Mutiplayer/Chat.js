@@ -14,7 +14,7 @@ import {
 } from "firebase/firestore";
 import "../style/Chat.css";
 
-function Chat({ room }) {
+export const Chat = ({ room }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const messagesRef = collection(db, "messages");
@@ -136,5 +136,5 @@ function Chat({ room }) {
       </div>
     </div>
   );
-}
+};
 export default Chat;

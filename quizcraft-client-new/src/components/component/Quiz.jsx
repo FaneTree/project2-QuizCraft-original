@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {getDoc, doc, updateDoc, onSnapshot} from "firebase/firestore";
+import {getDoc, doc, updateDoc, onSnapshot, setDoc} from "firebase/firestore";
 import { db, auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -14,8 +14,10 @@ export default function Quiz(props) {
   const [roomData, setRoomData] = useState([]);
   const [questionData, setQuestionData] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [attempts, setAttempts] = useState({[currentUser]:[]});
+  // const attempts = {[currentUser]:[]} // to record the score of a question and send it to firestore
+  //   console.log(attempts);
 
-  const attempts = {[currentUser]:[]} // to record the score of a question and send it to firestore
 
   const currentHost = roomData.host;
 
@@ -71,18 +73,20 @@ export default function Quiz(props) {
       console.log("you answer === ", answer, "& correct answer === ", correctAnswer);
 
       // check if the answer clicked is correct or not
-      const flag = answer === correctAnswer ? true : false;
+      const flag = answer.toString() === correctAnswer.toString() ? true : false;
       const score = scoreCalculate(flag);
       console.log("flag ==== ", flag, "score ==== ", score);
 
       attempts[currentUser][currentQuestion] = score
       console.log("attempt ==== ", attempts);
+      const updatedAttempts = {...attempts}
+      setAttempts(updatedAttempts);
 
       // push the attempts data to the firestore
-      updateDoc(doc(db, "games", gameID.toString()), {
+      setDoc (doc(db, "games", gameID.toString()), {
           room: {
               ...roomData,
-              attempts: attempts
+              attempts: {...roomData.attempts, ...attempts}
           }
       }).catch(error => console.log(error.message))
   }
