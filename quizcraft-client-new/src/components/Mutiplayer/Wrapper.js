@@ -11,7 +11,7 @@ export const Wrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
     setIsAuth(false);
     setIsInChat(false);
   };
-
+  
   const removeUser = async () => {
     console.log("removing user");
     const q = query(
