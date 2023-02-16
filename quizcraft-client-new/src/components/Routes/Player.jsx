@@ -38,7 +38,7 @@ export default function Player () {
 
     return (
         <div>
-            {gameID}
+            {/* {gameID} */}
             { showQuiz &&
                 <div>
                     <Quiz a = { gameID } />
@@ -46,9 +46,9 @@ export default function Player () {
                 </div>
             }
             { !showQuiz &&
-                <div>
+                <div className="auth">
+                    <button onClick={ _handleClick } className="transparent-button">Play quiz</button>
                     <WaitingRoom a = { gameID } />
-                    <button onClick={ _handleClick }>Quiz</button>
                 </div>
             }
             {/* <ChatRoom /> */}
