@@ -86,7 +86,7 @@ export default function Quiz(props) {
       setDoc (doc(db, "games", gameID.toString()), {
           room: {
               ...roomData,
-              attempts: {...attempts}
+              attempts: {...roomData.attempts, ...attempts}
           }
       }).catch(error => console.log(error.message))
   }
