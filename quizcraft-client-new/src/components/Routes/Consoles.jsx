@@ -60,7 +60,7 @@ export default function Consoles(){
 
     // Function: 1) receive API data and store them in different States; 2) pass the data to Firestore
     const fetchQuestions = ({ questionCount, category, difficulty }) => {
-        const url = `https://opentdb.com/api.php?amount=${ questionCount }&category=${ category }&difficulty=${ difficulty.toLowerCase() }`;
+        const url = `https://opentdb.com/api.php?amount=${ questionCount }&category=${ category }&difficulty=${ difficulty.toLowerCase() }&type=multiple`;
         axios.get(url)
             .then((response) => {
                 const questionsToFirestore = response.data.results.map((result, index) => {
