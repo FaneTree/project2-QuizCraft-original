@@ -52,6 +52,15 @@ export default function Host () {
         console.log("current Question Number: ", currentQuestion)
     },[currentQuestion])
 
+    // use onSnapshot to fetch gameEnd from Database;
+    // useEffect(()=>{
+    //     const unsubGameEnd = onSnapshot(gamesDocRef,
+    //         snapshot =>
+    //             setGameStatus(snapshot.data().room.gameEnd)
+    //     );
+    //     return () => unsubGameEnd();
+    // },[gameStatus])
+
     const _handleClick = ()=>{
         if (currentQuestion < (roomData.questions.length - 1 )) {
             setCurrentQuestion(currentQuestion + 1);
@@ -65,6 +74,14 @@ export default function Host () {
             })
         }else{
             console.log("Game Over, Moving to Final Results");
+            
+            // update the gameEnd in the firestore
+            updateDoc(doc(db, "games", gameID.toString()), {
+                room: {
+                    ...roomData,
+                    gameEnd: true,
+                }
+            })
             navigate(`/scoreboard/${gameID}`)
         }
     }

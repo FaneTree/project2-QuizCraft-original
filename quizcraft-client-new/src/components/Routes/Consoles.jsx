@@ -78,7 +78,7 @@ export default function Consoles(){
                     questions: questionsToFirestore,
                     host: user.displayName,
                     currentQuestion: 0, 
-                    gameStart: false,
+                    gameEnd: false,
                     timer: timerSet
                 };
                 return gameData;
