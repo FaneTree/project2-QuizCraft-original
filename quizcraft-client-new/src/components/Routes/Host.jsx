@@ -52,15 +52,19 @@ export default function Host () {
     },[currentQuestion])
 
     const _handleClick = ()=>{
-        setCurrentQuestion( currentQuestion + 1 );
+        if (currentQuestion < (roomData.questions.length - 1)) {
+            setCurrentQuestion(currentQuestion + 1);
 
-        // update the currentQuestion number in the firestore
-        updateDoc(doc(db, "games", gameID.toString()),{
-            room:{
-                ...roomData,
-                currentQuestion: currentQuestion + 1 
-            }
-        })
+            // update the currentQuestion number in the firestore
+            updateDoc(doc(db, "games", gameID.toString()), {
+                room: {
+                    ...roomData,
+                    currentQuestion: currentQuestion + 1
+                }
+            })
+        }else{
+            alert("STOP! No more question la! Go get some sleep ok?")
+        }
     }
     
     return (
