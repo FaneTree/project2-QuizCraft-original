@@ -25,8 +25,8 @@ export const Wrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
   };
 
   return (
-    <div className="lobby-banner">
-      <div className="app-header">
+    <div>
+      <div className="app-header lobby-banner">
         <h1> Game Lobby </h1>
       </div>
 
