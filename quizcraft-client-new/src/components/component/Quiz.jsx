@@ -88,7 +88,6 @@ export default function Quiz(props) {
   }
 
   return (
-<<<<<<< HEAD
     <div className="midtag">
       <p>
         Dear <strong>{currentUser}</strong>, Welcome to Game Room
@@ -97,16 +96,7 @@ export default function Quiz(props) {
       <p>
         The Host is <strong>{currentHost}</strong>
       </p>
-=======
-      <div>
-        <p>
-          Dear <strong>{currentUser}</strong>, Welcome to Game Room
-          <strong>{props.a}</strong>
-        </p>
-        <p>
-          The Host is <strong>{currentHost}</strong>
-        </p>
->>>>>>> c65d7f535d5b209d6736feea839060d9ad9eb3c1
+
 
         {questionData.map((question, index) => {
           if (index === currentQuestion) {

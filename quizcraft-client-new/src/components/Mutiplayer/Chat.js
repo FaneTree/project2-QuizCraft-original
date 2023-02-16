@@ -61,7 +61,7 @@ function Chat({ room }) {
       });
       setUsers(users);
     });
-    
+
     return () => unsubscribe();
   }, []);
 
@@ -136,10 +136,5 @@ function Chat({ room }) {
       </div>
     </div>
   );
-<<<<<<< HEAD
 }
-
 export default Chat;
-=======
-};
->>>>>>> c65d7f535d5b209d6736feea839060d9ad9eb3c1
