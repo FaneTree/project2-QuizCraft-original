@@ -20,10 +20,10 @@ const NavBar = () => {
         <nav className = 'nav'>
             <div>
                 <img 
-                    src="https://i.ibb.co/GnbLR4N/Graphic-Design-800-300-px-copy.png" alt="cauldron-800-300-px" 
-                    width="70" 
+                    src="https://i.ibb.co/yQgXJxZ/My-project-1-2.png" alt="cauldron-800-300-px" 
+                    width="100" 
                 />
-                <h1>QuizCraft</h1>
+                {/* <h1>QuizCraft</h1> */}
             </div>
             <ul>
                 {MenuData.map((item,index) => {

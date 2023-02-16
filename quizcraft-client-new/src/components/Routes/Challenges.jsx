@@ -70,17 +70,17 @@ export default function Challenges (){
     }
     
     return(
-        <div className="Games">
+        <div className="Games midtext textwhite">
             <header className="Games-header">
                 {loading ? "Trivia Question Loading..." : <div>
-                    <div>
+                    <div className="midtag">
                         Current Points: {currentPoints}
                     </div>
                     <br />
 
                 {triviaQuestion.map((triviaData, index) => 
                     <div key={index}>
-                        <div>
+                        <div className="midtag">
                             {removeCharacters(triviaData.question)}
                         </div>
                         <br />
@@ -88,15 +88,15 @@ export default function Challenges (){
                             {
                                 allPossibleAnswers.map((answer, id) => {
                                     let style;
-                                    if (id === 1) {
-                                        style = {backgroundColor: "#AEC6CF"}
-                                    } else if (id === 2) {
-                                        style = {backgroundColor: "#F49AC2"}
-                                    } else if (id === 3) {
-                                        style = {backgroundColor: "#967BB6"}
-                                    } else {
-                                        style = {backgroundColor: "#FFB347"}
-                                    }
+                                    // if (id === 1) {
+                                    //     style = {backgroundColor: "#AEC6CF"}
+                                    // } else if (id === 2) {
+                                    //     style = {backgroundColor: "#F49AC2"}
+                                    // } else if (id === 3) {
+                                    //     style = {backgroundColor: "#967BB6"}
+                                    // } else {
+                                    //     style = {backgroundColor: "#FFB347"}
+                                    // }
 
                                     if (attempted && answer === correctAnswer) {
                                         style = {backgroundColor: "green"}

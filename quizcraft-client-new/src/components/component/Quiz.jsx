@@ -106,7 +106,7 @@ export default function Quiz(props) {
   }, [currentQuestion]);
   
   return (
-    <div>
+    <div className="midtag">
       <p>
         Dear <strong>{currentUser}</strong>, Welcome to Game Room
         <strong>{props.a}</strong>

@@ -10,8 +10,8 @@ export const MenuData = [
         className: 'nav-links'
     },
     {
-        title: "Lobby",
-        url: "/lobby",
+        title: "Chat",
+        url: "/chat",
         className: 'nav-links'
     }
 

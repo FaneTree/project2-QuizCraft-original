@@ -15,7 +15,7 @@ import {
 import "../style/Chat.css";
 // import "bootstrap/dist/css/bootstrap.min.css";
 
-export const Chat = ({ room }) => {
+function Chat({ room }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const messagesRef = collection(db, "messages");
@@ -137,4 +137,6 @@ export const Chat = ({ room }) => {
       </div>
     </div>
   );
-};
+}
+
+export default Chat;
