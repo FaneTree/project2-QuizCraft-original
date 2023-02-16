@@ -25,13 +25,18 @@ function ChatRoom() {
   return (
     <Wrapper isAuth={isAuth} setIsAuth={setIsAuth} setIsInChat={setIsInChat}>
       {!isInChat ? (
-        <div className="room">
-          <label> Type room code: </label>
-          <input onChange={(e) => setRoom(e.target.value)} required />
+        <div className="auth lobbytag joinbutton textwhite">
+          <p style={{ fontSize: "30px" }}> Type room code: </p>
+          <input
+            onChange={(e) => setRoom(e.target.value)}
+            style={{ height: "50px", fontSize: "25px" }}
+            required
+          />
           <button
             onClick={() => {
               setIsInChat(true);
             }}
+            style={{ fontSize: "30px" }}
           >
             Enter room
           </button>

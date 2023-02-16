@@ -13,6 +13,9 @@ import {
   getDocs,
 } from "firebase/firestore";
 import "../style/Chat.css";
+import "../style/Auth.css";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Signin from "../Routes/Signin";
 
 export const Chat = ({ room }) => {
   const [messages, setMessages] = useState([]);
@@ -20,6 +23,7 @@ export const Chat = ({ room }) => {
   const messagesRef = collection(db, "messages");
   const [users, setUsers] = useState([]);
   const usersRef = collection(db, "users");
+  const [user] = useAuthState(auth);
 
   const addUser = async () => {
     await removeUser();
@@ -99,8 +103,9 @@ export const Chat = ({ room }) => {
 
   return (
     <div>
-      <div className="sidebar">
-        {/* <div className="playerlist">
+      {user ? (
+        <div className="sidebar">
+          {/* <div className="playerlist">
           <p>Current players: </p>
           <button onClick={removeUser}> removeUser </button>
           {users.map((user) => (
@@ -109,31 +114,34 @@ export const Chat = ({ room }) => {
             </div>
           ))}
         </div> */}
-        <div className="chat-app">
-          <div className="header">
-            <h1>Welcome! The room code is: {room.toUpperCase()}</h1>
+          <div className="chat-app">
+            <div className="header">
+              <h1>Welcome! The room code is: {room.toUpperCase()}</h1>
+            </div>
+            <div className="messages">
+              {messages.map((message) => (
+                <div key={message.id} className="message">
+                  <span className="user">{message.user}:</span> {message.text}
+                </div>
+              ))}
+            </div>
+            <form onSubmit={handleSubmit} className="new-message-form">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(event) => setNewMessage(event.target.value)}
+                className="new-message-input"
+                placeholder="Type your message here..."
+              />
+              <button type="submit" className=" auth lobbytag enterbutton">
+                Send
+              </button>
+            </form>
           </div>
-          <div className="messages">
-            {messages.map((message) => (
-              <div key={message.id} className="message">
-                <span className="user">{message.user}:</span> {message.text}
-              </div>
-            ))}
-          </div>
-          <form onSubmit={handleSubmit} className="new-message-form">
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(event) => setNewMessage(event.target.value)}
-              className="new-message-input"
-              placeholder="Type your message here..."
-            />
-            <button type="submit" className="send-button">
-              Send
-            </button>
-          </form>
         </div>
-      </div>
+      ) : (
+        <Signin />
+      )}
     </div>
   );
 };

@@ -9,7 +9,7 @@ export const MenuData = [
         url: "/single",
         className: 'nav-links'
     },
-    {
+    { 
         title: "Chat",
         url: "/chatroom",
         className: 'nav-links'
