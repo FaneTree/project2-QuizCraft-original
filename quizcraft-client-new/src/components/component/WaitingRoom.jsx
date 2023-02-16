@@ -15,7 +15,7 @@ export default function WaitingRoom(props){
     }, []);
     
     return (
-        <div>
+        <div className="midtag">
             <p>Players in room : { gameID } </p> 
             {playersList.map((player) => {
                     return (

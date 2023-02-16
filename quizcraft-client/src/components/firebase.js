@@ -10,7 +10,7 @@ const firebaseConfig = {
   storageBucket: "ga-project-quizcraft.appspot.com",
   messagingSenderId: "937516728945",
   appId: "1:937516728945:web:0c048ff474bc2ac35551d0",
-  measurementId: "G-NL0RSD8BZ9"
+  measurementId: "G-NL0RSD8BZ9",
 };
 
 // Initialize Firebase

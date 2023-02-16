@@ -1,9 +1,12 @@
 import React from "react";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import Score from "./Score"
 
-export default function Challenges (){
-    
+export default function Challenges() {
+    // redirecting this page 
+    const navigate = useNavigate();
     // most of lines are copied from https://github.com/AndyUGA/trivia-api-tutorial-project/blob/main/src/App.js
     const [triviaQuestion, setTriviaQuestion] = useState([]);
     const [correctAnswer, setCorrectAnswer] = useState("");
@@ -11,10 +14,11 @@ export default function Challenges (){
     const [allPossibleAnswers, setAllPossibleAnswers] = useState([]);
     const [loading, setLoading] = useState(false);
     const [incorrectAnswer, setIncorrectAnswer] = useState("");
+    const [noQuestion, setNoQuestion] = useState(0);
+    // hook for when user clicks an answer
     const [attempted, setAttempted] = useState(false);
 
-
-    // // combines correct & incorrect answers into a single array
+    // combines correct & incorrect answers into a single array
     async function combineAllAnswers(incorrectAnswers, correctAnswer) {
         let allAnswers = [];
         incorrectAnswers.map((item) => {
@@ -44,7 +48,10 @@ export default function Challenges (){
 
         // set loading boolean to false so that we know to show trivia question 
         setLoading(false);
+        // set attempted boolean to false so it knows user hasn't an answer to the question yet
         setAttempted(false);
+        setNoQuestion(noQuestion + 1);
+        // console.log(noQuestion);
     }
 
     useEffect(() => {
@@ -53,14 +60,21 @@ export default function Challenges (){
 
     function verifyAnswer(selectedAnswer) {
         setAttempted(true);
+
         if (selectedAnswer === correctAnswer) {
-            setCurrentPoints(currentPoints + 1);
+            setCurrentPoints(currentPoints + 1000);
         } else {
             setIncorrectAnswer(selectedAnswer)
-            setCurrentPoints(currentPoints - 1);
-            // next line won't happen until host clicks for next question
+            setCurrentPoints(currentPoints + 500);
         }
-        setTimeout(getTriviaData, 1000);
+
+        if (noQuestion < 3) {
+            setTimeout(getTriviaData, 1000);
+        } else {
+            setNoQuestion(0);
+            // redirecting this page to home after user completes a set no. of questions
+            navigate("/")
+        }
     }
 
     // converts html code to regular characters
@@ -70,17 +84,15 @@ export default function Challenges (){
     }
     
     return(
-        <div className="Games">
+        <div className="Games midtext textwhite">
             <header className="Games-header">
                 {loading ? "Trivia Question Loading..." : <div>
-                    <div>
-                        Current Points: {currentPoints}
-                    </div>
+                    <Score points={ currentPoints } />
                     <br />
 
                 {triviaQuestion.map((triviaData, index) => 
                     <div key={index}>
-                        <div>
+                        <div className="midtag">
                             {removeCharacters(triviaData.question)}
                         </div>
                         <br />
@@ -88,15 +100,15 @@ export default function Challenges (){
                             {
                                 allPossibleAnswers.map((answer, id) => {
                                     let style;
-                                    if (id === 1) {
-                                        style = {backgroundColor: "#AEC6CF"}
-                                    } else if (id === 2) {
-                                        style = {backgroundColor: "#F49AC2"}
-                                    } else if (id === 3) {
-                                        style = {backgroundColor: "#967BB6"}
-                                    } else {
-                                        style = {backgroundColor: "#FFB347"}
-                                    }
+                                    // if (id === 1) {
+                                    //     style = {backgroundColor: "#AEC6CF"}
+                                    // } else if (id === 2) {
+                                    //     style = {backgroundColor: "#F49AC2"}
+                                    // } else if (id === 3) {
+                                    //     style = {backgroundColor: "#967BB6"}
+                                    // } else {
+                                    //     style = {backgroundColor: "#FFB347"}
+                                    // }
 
                                     if (attempted && answer === correctAnswer) {
                                         style = {backgroundColor: "green"}
