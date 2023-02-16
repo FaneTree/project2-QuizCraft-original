@@ -10,11 +10,12 @@ export default function WaitingRoom(props){
         const unsub = onSnapshot(doc(db, "games", gameID), (doc) => {
             doc.data().players.map(x => playersList.push(x));
             console.log(playersList);
-        });
+        })
+        return () => unsub();
     }, []);
     
     return (
-        <div>
+        <div className="midtag">
             <p>Players in room : { gameID } </p> 
             {playersList.map((player) => {
                     return (

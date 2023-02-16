@@ -6,9 +6,80 @@
   width: 200px;
   height: 50px;
   border: none;
-  background-color: #3b5998;
+  /* background-color: #000000; */
+  background: transparent;
+  border: 1px solid rgb(255, 255, 255);
   color: white;
   border-radius: 8px;
   font-size: 18px;
   cursor: pointer;
+}
+.auth button:hover {
+  color: black;
+  border: 1px solid black;
+}
+
+.sign-in-div {
+  margin-top: 5em;
+}
+
+.enterbutton {
+  margin: 3em 0;
+}
+
+/* .joinbutton {
+  display: block;
+} */
+
+.auth.lobbytag {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.auth.lobbytag > div {
+  margin-top: 20px;
+}
+
+.auth.lobbytag > div.one {
+  text-align: center;
+}
+
+.auth.lobbytag > div.two {
+  display: flex;
+  align-items: center;
+}
+
+.auth.lobbytag > div.two > input {
+  margin-right: 10px;
+}
+
+.textwhite {
+  color: white;
+}
+
+.textblack {
+  color: black;
+}
+
+.transparent-button {
+  background-color: transparent;
+  height: 30px;
+  width: 100px;
+  font-size: 20px;
+}
+
+.transparent-button:hover {
+  cursor: pointer;
+  color: black;
+}
+
+.midtext {
+  font-size: 2em;
+}
+
+.midtag {
+  text-align: center;
+  margin: 0.8em 0;
 }

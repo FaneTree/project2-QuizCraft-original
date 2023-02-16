@@ -13,7 +13,6 @@ import {
   getDocs,
 } from "firebase/firestore";
 import "../style/Chat.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 export const Chat = ({ room }) => {
   const [messages, setMessages] = useState([]);
@@ -100,39 +99,41 @@ export const Chat = ({ room }) => {
 
   return (
     <div>
-      <div className="sidebar">
-        <div className="playerlist">
-          <p>Current players: </p>
-          <button onClick={removeUser}> removeUser </button>
-          {users.map((user) => (
-            <div key={user.id} className="user">
-              {user.user}
-            </div>
-          ))}
-        </div>
-        <div className="chat-app">
-          <div className="header">
-            <h1>Welcome! The room code is: {room.toUpperCase()}</h1>
-          </div>
-          <div className="messages">
-            {messages.map((message) => (
-              <div key={message.id} className="message">
-                <span className="user">{message.user}:</span> {message.text}
+      <div className="maindiv" style={{ float: "right" }}>
+        <div className="sidebar">
+          <div className="playerlist" style={{ float: "right" }}>
+            <p>Current players: </p>
+            {/* <button onClick={removeUser}> removeUser </button> */}
+            {users.map((user) => (
+              <div key={user.id} className="user">
+                {user.user}
               </div>
             ))}
           </div>
-          <form onSubmit={handleSubmit} className="new-message-form">
-            <input
-              type="text"
-              value={newMessage}
-              onChange={(event) => setNewMessage(event.target.value)}
-              className="new-message-input"
-              placeholder="Type your message here..."
-            />
-            <button type="submit" className="send-button">
-              Send
-            </button>
-          </form>
+          <div className="chat-app">
+            <div className="header">
+              <h4>Welcome! The room code is: {room.toUpperCase()}</h4>
+            </div>
+            <div className="messages">
+              {messages.map((message) => (
+                <div key={message.id} className="message">
+                  <span className="user">{message.user}:</span> {message.text}
+                </div>
+              ))}
+            </div>
+            <form onSubmit={handleSubmit} className="new-message-form">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(event) => setNewMessage(event.target.value)}
+                className="new-message-input"
+                placeholder="Type your message here..."
+              />
+              <button type="submit" className="send-button">
+                Send
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

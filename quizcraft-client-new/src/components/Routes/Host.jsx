@@ -53,7 +53,7 @@ export default function Host () {
     },[currentQuestion])
 
     const _handleClick = ()=>{
-        if (currentQuestion < (roomData.questions.length - 1)) {
+        if (currentQuestion < (roomData.questions.length - 1 )) {
             setCurrentQuestion(currentQuestion + 1);
 
             // update the currentQuestion number in the firestore

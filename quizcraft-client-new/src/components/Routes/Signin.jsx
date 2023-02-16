@@ -20,8 +20,8 @@ export default function Signin () {
         }
     };
     return (
-        <div className="auth">
-            <p> Sign In With Google To Continue </p>
+        <div className="auth sign-in-div midtext">
+            <p className="textwhite"> Sign In With Google To Continue </p>
             <button onClick={_signInWithGoogle}> Sign In With Google </button>
             {errMessage ? errMessage : null}
         </div>
