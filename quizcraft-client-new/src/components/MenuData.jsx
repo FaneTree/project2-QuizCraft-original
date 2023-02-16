@@ -10,11 +10,10 @@ export const MenuData = [
         className: 'nav-links'
     },
     {
-        title: "Lobby",
-        url: "/lobby",
+        title: "Chat",
+        url: "/chatroom",
         className: 'nav-links'
     }
-
 ]
 
 export const MenuDataLogin = [

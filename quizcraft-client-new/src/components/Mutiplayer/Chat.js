@@ -13,7 +13,6 @@ import {
   getDocs,
 } from "firebase/firestore";
 import "../style/Chat.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
 
 export const Chat = ({ room }) => {
   const [messages, setMessages] = useState([]);
@@ -62,7 +61,7 @@ export const Chat = ({ room }) => {
       });
       setUsers(users);
     });
-
+    
     return () => unsubscribe();
   }, []);
 
@@ -101,7 +100,7 @@ export const Chat = ({ room }) => {
   return (
     <div>
       <div className="sidebar">
-        <div className="playerlist">
+        {/* <div className="playerlist">
           <p>Current players: </p>
           <button onClick={removeUser}> removeUser </button>
           {users.map((user) => (
@@ -109,7 +108,7 @@ export const Chat = ({ room }) => {
               {user.user}
             </div>
           ))}
-        </div>
+        </div> */}
         <div className="chat-app">
           <div className="header">
             <h1>Welcome! The room code is: {room.toUpperCase()}</h1>
