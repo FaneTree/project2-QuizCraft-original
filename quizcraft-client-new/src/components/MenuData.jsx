@@ -11,7 +11,7 @@ export const MenuData = [
     },
     {
         title: "Chat",
-        url: "/chat",
+        url: "/chatroom",
         className: 'nav-links'
     }
 ]

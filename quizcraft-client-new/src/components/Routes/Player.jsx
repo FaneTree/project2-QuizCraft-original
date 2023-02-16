@@ -42,7 +42,7 @@ export default function Player () {
             { showQuiz &&
                 <div>
                     <Quiz a = { gameID } />
-                    <button onClick={ _handleClick }>Lobby</button>
+                    {/* <button onClick={ _handleClick }>Room</button> */}
                 </div>
             }
             { !showQuiz &&

@@ -137,7 +137,7 @@ export default function Consoles(){
                     Timer in seconds: 
                     <input type="number" name="timerCount" value={timerSet} onChange={(e) => setTimerset(e.target.value)} min="10" max="60" style={{ fontSize: '25px' }}/>
                 </section> */}
-                <section>
+                <section className='midtag'>
 
                 <input type="submit" value="Submit" class="transparent-button"/>
                 </section>

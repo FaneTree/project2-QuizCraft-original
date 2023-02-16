@@ -93,32 +93,32 @@ export default function Quiz(props) {
 
   return (
     <div className="midtag">
-      <p>
-        Dear <strong>{currentUser}</strong>, Welcome to Game Room
+      {/* <p className="midtext textwhite">
+        Welcome to Game Room
         <strong>{props.a}</strong>
       </p>
-      <p>
+      <p className="midtext textwhite">
         The Host is <strong>{currentHost}</strong>
-      </p>
+      </p> */}
 
 
         {questionData.map((question, index) => {
           if (index === currentQuestion) {
             return (
                 <div key={index}>
-                  <p>
+                  <p className="midtext textwhite ">
                     Queston #{index + 1}: {question[index].questionText}
                   </p>
-                    <p>{ question[currentQuestion].correct }</p>
-                  <ol>
+                    {/* <p>{ question[currentQuestion].correct }</p> */}
+                  <ul className="allAnswers answerBtns lobbydiv roomdiv">
                     {question[index].shuffledAnswers.map((answer, index) => (
                         <li key={index}>
-                          <button value={answer} onClick={_handleAnswerClick}>
+                          <button value={answer} onClick={_handleAnswerClick} className="answerBtns btn from-center">
                             {answer}
                           </button>
                         </li>
                     ))}
-                  </ol>
+                  </ul>
                 </div>
             );
           }

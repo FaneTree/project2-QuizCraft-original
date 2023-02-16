@@ -137,4 +137,3 @@ export const Chat = ({ room }) => {
     </div>
   );
 };
-export default Chat;

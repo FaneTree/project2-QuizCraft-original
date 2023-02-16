@@ -36,9 +36,9 @@ export default function Join () {
     }
     
     return (
-        <div>
-            <input placeholder= 'Game ID' onChange={ (event) => setJoinId(event.currentTarget.value)}/>
-            <button onClick= { _recordAndNavigatePlayer } >Join</button>
+        <div className="auth lobbytag joinbutton two">
+            <input placeholder= 'Room ID' onChange={ (event) => setJoinId(event.currentTarget.value) } style={{ height: '50px', fontSize: '25px' }} />
+            <button onClick= { _recordAndNavigatePlayer } style={{ fontSize: '30px' }}>Join Room</button>
         </div>
     );
 }

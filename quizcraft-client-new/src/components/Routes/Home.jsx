@@ -57,10 +57,10 @@ export default function Home (){
                 //     {/* <p>{ user.displayName }</p> */}
                 //     {/* <button onClick={ _signUserOut}>Sign out</button> */}
 
-                <div className="auth">
+                <div className="auth lobbytag">
                     
-                    <button onClick= { _navigateCreate } >Create</button>
-
+                    <button onClick= { _navigateCreate } className="enterbutton" style={{ fontSize: '30px' }}>Create Room</button>
+                    
                     <Join />
                     
                     {/* <p>{ user.displayName }</p>

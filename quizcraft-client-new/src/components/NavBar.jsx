@@ -20,8 +20,8 @@ const NavBar = () => {
         <nav className = 'nav'>
             <div>
                 <img 
-                    src="https://i.ibb.co/0GLW6tM/Quizcraft-2.png" alt="cauldron-800-300-px" 
-                    width="150" 
+                    src="https://i.ibb.co/Hhhjqwr/Quizcraft-3.png" alt="cauldron-800-300-px" 
+                    width="200" 
                 />
                 {/* <h1>QuizCraft</h1> */}
             </div>

@@ -11,7 +11,7 @@ export const Wrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
     setIsAuth(false);
     setIsInChat(false);
   };
-  
+
   const removeUser = async () => {
     console.log("removing user");
     const q = query(
@@ -26,21 +26,21 @@ export const Wrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
 
   return (
     <div className="lobby-banner">
-      <div className="app-header">
+      {/* <div className="app-header">
         <h1> Game Lobby </h1>
-      </div>
+      </div> */}
 
       <div className="app-container">{children}</div>
       {isAuth && (
         <div className="sign-out">
-          <button
+          {/* <button
             onClick={() => {
               signUserOut();
               removeUser();
             }}
           >
             Sign Out
-          </button>
+          </button> */}
         </div>
       )}
     </div>

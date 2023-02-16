@@ -86,7 +86,7 @@ export default function Challenges() {
     return(
         <div className="Games midtext textwhite">
             <header className="Games-header">
-                {loading ? "Trivia Question Loading..." : <div>
+                {loading ? "" : <div>
                     <Score points={ currentPoints } />
                     <br />
 

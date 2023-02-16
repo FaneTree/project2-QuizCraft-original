@@ -87,24 +87,27 @@ export default function Host () {
     }
     
     return (
-        <div>
-            {gameID}
+        <div className="  " >
             { showQuiz &&
-                <div>
+                <div className="" >
                     <Quiz a = { gameID } /> 
                     {/* change current question + 1*/}
-                    <button onClick={ _handleClick } >Next</button>
-                    <button onClick = { _showQuiz }>Lobby</button>
+                    <section className="">
+                    <button onClick={ _handleClick } className="transparent-button">Next</button>
+                    </section>
+                    {/* <button onClick ={ _showQuiz } className="midbutton lobbydiv auth">Lobby</button> */}
                 </div>
             }
 
             { !showQuiz &&
-                <div>
+                <div className="">
+                    <div className="auth ">
+                    <button className="midtag">Start</button>
+                    <button onClick = { _showQuiz } className="midtag">Quiz</button>
+                    </div>
                     <WaitingRoom a = { gameID } />
                     {/* <ChatRoom /> */}
                     {/* change game status to true */}
-                    <button>Start</button>
-                    <button onClick = { _showQuiz }>Quiz</button>
                 </div>
             }
         </div>

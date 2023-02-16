@@ -12,10 +12,9 @@ import Listgames from "./component/Listgames";
 import Consoles from "./Routes/Consoles";
 import Player from "./Routes/Player";
 import Host from "./Routes/Host";
-import Chat from "./Mutiplayer/Chat";
 
 import Challenges from "./Routes/Challenges";
-// import ChatRoom from "./Mutiplayer/Main";
+import ChatRoom from "./Mutiplayer/Main";
 
 import FinalResult from "./Routes/FinalResult";
 
@@ -37,7 +36,7 @@ function App() {
 
           {/* for single player and chat feature */}
           <Route exact path="/single" element={<Challenges />} />
-          <Route exact path="/chat" element={<Chat />} />
+          <Route exact path="/chatroom" element={<ChatRoom />} />
 
           {/* after the game finished */}
           <Route exact path="/scoreboard/:gameId" element={<FinalResult />} />

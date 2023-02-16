@@ -26,15 +26,20 @@ export default function WaitingRoom(props){
     // }, []);
     
     return (
-        <div className="midtag">
-            <p>Players in room : { gameID } </p> 
+        <div>
+            <div className="auth midtext displayblock">
+            <p>Room ID: { gameID }</p>
+            <p>Players in room :</p> 
             {console.log("Player List ===== ", playersList)}
+            </div>
+            <div className="auth">
             <ul>
                 { playersList.map((item, index) =>(
                 <li key={index}>
                     {item.username}
                 </li>))}
             </ul>
+            </div>
         </div>
     )
 }
