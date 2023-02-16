@@ -46,8 +46,8 @@ export default function Home (){
 
                     <Join />
                     
-                    <p>{ user.displayName }</p>
-                    <button onClick={ _signUserOut}>Sign out</button>
+                    {/* <p>{ user.displayName }</p>
+                    <button onClick={ _signUserOut}>Sign out</button> */}
 
                 </div>
                 : 
