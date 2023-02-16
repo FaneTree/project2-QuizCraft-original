@@ -3,6 +3,7 @@ import {useAuthState} from 'react-firebase-hooks/auth';
 import { useNavigate } from "react-router-dom";
 
 import Signin from "./Signin";
+import Join from '../component/Join';
 
 import "../style/Auth.css";
 
@@ -32,6 +33,7 @@ export default function Home (){
 
     // function to put data into firestore and navigate to player
     const _recordAndNavigatePlayer = () => {
+        console.log(user.displayName);
         navigate(joinRoomURL)
     }
     
@@ -40,13 +42,14 @@ export default function Home (){
             
             { user ? 
                 <div className="auth">
+                    
                     <button onClick= { _navigateCreate } >Create</button>
 
-                    <input placeholder= 'Game ID' onChange={ (event) => setJoinId(event.currentTarget.value)}/>
-                    <button onClick= { _recordAndNavigatePlayer } >Join</button>
+                    <Join />
                     
                     <p>{ user.displayName }</p>
                     <button onClick={ _signUserOut}>Sign out</button>
+
                 </div>
                 : 
                 <Signin /> 
