@@ -4,7 +4,7 @@ import { getDatabase } from "firebase/database";
 import { getFirestore, collection } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCYK2mACB8Ci1azOS5BHxBgL_vb_MgvIN8",
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "quizcraft-c8706.firebaseapp.com",
   projectId: "quizcraft-c8706",
   storageBucket: "quizcraft-c8706.appspot.com",

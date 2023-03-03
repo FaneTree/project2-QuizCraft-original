@@ -5,6 +5,7 @@ import { db } from "../firebase";
 
 import Quiz from '../component/Quiz';
 import WaitingRoom from "../component/WaitingRoom";
+import Chatroom from "../component/Chatroom";
 // import ChatRoom from '../Multiplayer/Main';
 
 
@@ -95,6 +96,7 @@ export default function Host () {
                     <section className="">
                     <button onClick={ _handleClick } className="transparent-button">Next</button>
                     </section>
+                    <Chatroom room = { gameID } />
                     {/* <button onClick ={ _showQuiz } className="midbutton lobbydiv auth">Lobby</button> */}
                 </div>
             }

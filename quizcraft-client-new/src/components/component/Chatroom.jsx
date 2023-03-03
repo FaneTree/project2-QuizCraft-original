@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-import { db, auth, usersRef } from "../firebase";
+import { db, auth } from "../firebase";
 import {
   doc,
   collection,
@@ -13,57 +12,140 @@ import {
   deleteDoc,
   getDocs,
 } from "firebase/firestore";
-import { signOut } from "firebase/auth";
-import { where, query, deleteDoc, getDocs } from "firebase/firestore";
-import {useAuthState} from 'react-firebase-hooks/auth';
-import { useParams } from "react-router-dom"
 
 import "../style/Chat.css";
-import "../style/Main.css";
+import "../style/Auth.css";
 
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import { useAuthState } from "react-firebase-hooks/auth";
+import Signin from "../Routes/Signin";
 
 export default function Chatroom (props) {
-    // to check user exist or not
-    const [user] = useAuthState(auth);
-    // get data from url
-    let { gameId, playerId } = useParams();
+  const [messages, setMessages] = useState([]);
+  const [newMessage, setNewMessage] = useState("");
+  const messagesRef = collection(db, "messages");
+  const [users, setUsers] = useState([]);
+  const usersRef = collection(db, "users");
+  const [user] = useAuthState(auth);
 
-    // manage messages
-    const [newMessage, setNewMessage] = useState("");
-    const [messages, setMessages] = useState([]);
-    const messagesRef = collection(db, "messages");
+  const room = props.room
 
-    const [users, setUsers] = useState([]);
-    const usersRef = collection(db, "users");
+  const addUser = async () => {
+    await removeUser();
+    await addDoc(usersRef, {
+      user: auth.currentUser.displayName,
+      room,
+    });
+    // console.log("add user", data.id);
+  };
 
-    // create functions
-    
-    // to add user into database in order to check
-    const addUser = async () => {
-        await removeUser();
-        await addDoc(usersRef, {
-          user: auth.currentUser.displayName,
-          room,
-        });
-    };
-    // to remove user from database in order to check
-    const removeUser = async () => {
-        // console.log("removing user");
-        const q = query(
-          usersRef,
-          where("user", "==", auth.currentUser.displayName)
-        );
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach(function (doc) {
-          deleteDoc(doc.ref);
-        });
-    };
-
-    return (
-        <div>
-
-        </div>
+  const removeUser = async () => {
+    // console.log("removing user");
+    const q = query(
+      usersRef,
+      where("user", "==", auth.currentUser.displayName)
     );
-}
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(function (doc) {
+      deleteDoc(doc.ref);
+    });
+  };
+
+  useEffect(() => {
+    addUser();
+  }, []);
+
+  useEffect(() => {
+    const queryUsers = query(usersRef, where("room", "==", room));
+    const unsubscribe = onSnapshot(queryUsers, (snapshot) => {
+      let users = [];
+      const names = [];
+      snapshot.forEach((doc) => {
+        // Only add unique names
+        const data = doc.data();
+        if (!names.includes(data.user)) {
+          users.push({ ...data, id: doc.id });
+          names.push(data.user);
+        }
+      });
+      setUsers(users);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    const queryMessages = query(
+      messagesRef,
+      where("room", "==", room),
+      orderBy("createdAt")
+    );
+
+    const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
+      let messages = [];
+      snapshot.forEach((doc) => {
+        messages.push({ ...doc.data(), id: doc.id });
+      });
+      console.log(messages);
+      setMessages(messages);
+    });
+
+    return () => unsuscribe();
+  }, []);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (newMessage === "") return;
+    await addDoc(messagesRef, {
+      text: newMessage,
+      createdAt: serverTimestamp(),
+      user: auth.currentUser.displayName,
+      room,
+    });
+
+    setNewMessage("");
+  };
+
+  return (
+    <div>
+      {user ? (
+        <div className="sidebar">
+          {/* <div className="playerlist">
+          <p>Current players: </p>
+          <button onClick={removeUser}> removeUser </button>
+          {users.map((user) => (
+            <div key={user.id} className="user">
+              {user.user}
+            </div>
+          ))}
+        </div> */}
+          <div className="chat-app">
+            <div className="header">
+              <h1>Welcome! The room code is: {room.toUpperCase()}</h1>
+            </div>
+            <div className="messages">
+              {messages.map((message) => (
+                <div key={message.id} className="message">
+                  <span className="user">{message.user}:</span> {message.text}
+                </div>
+              ))}
+            </div>
+            <form onSubmit={handleSubmit} className="new-message-form">
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(event) => setNewMessage(event.target.value)}
+                className="new-message-input"
+                placeholder="Type your message here..."
+              />
+              <button type="submit" className=" auth lobbytag enterbutton">
+                Send
+              </button>
+            </form>
+          </div>
+        </div>
+      ) : (
+        <Signin />
+      )}
+    </div>
+  );
+};
